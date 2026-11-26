@@ -28,6 +28,18 @@ BOL-TC-00972
 
 Allow a worker to type the value shown below a damaged barcode or search by visible location or order reference. Show the matched site, variant and pack, or bag number before confirmation. One order reference may match several bags. In a two-bag collection, show each bag separately and identify the one still missing. The bag ID establishes which bag staff selected. Recipient confirmation supplies the evidence for actual handover.
 
+## Taking printed labels to a new installation
+
+Take one printed sample of each kind before the move and read its payload. A QR symbol can carry a bare internal code, a GS1 Digital Link or an ordinary web address. Each has a different dependency.
+
+| What is printed | What must survive the move |
+| --- | --- |
+| A bare bin or bag ID, such as `BOL-TC-00972` | The scanner still reads the same characters. Migrate the merchant’s ID mapping, site, object type and status, including retired aliases. A lookup for an already collected bag must show its prior handover. |
+| A supplier’s GTIN or SSCC | Preserve the GTIN-to-package mapping and verified pack factor, or the SSCC-to-handling-unit record. A WMS that supports GS1 Digital Link syntax can also extract an encoded GTIN locally from a supplier QR URL. Opening the supplier’s web content depends on its host. [GS1 Digital Link URI syntax](https://ref.gs1.org/standards/digital-link/uri-syntax/1.7.0/) |
+| An internal URL such as `https://old.example/bins/UBI-0047` | A phone camera opens the hostname printed on the label. Keep control of that hostname, its DNS and its HTTPS certificate to serve the original path or redirect it to the authorized new location page. A new installation alone cannot redirect the old host. If the old host becomes unavailable, use a printed ID inside the signed-in WMS and replace URL-only labels whose destination cannot be recovered. [HTTPS authority](https://www.rfc-editor.org/rfc/rfc9110.html#section-4.2.2) · [HTTP redirects](https://www.rfc-editor.org/rfc/rfc9110.html#section-15.4) |
+
+**Merchant trial.** Before retiring the old installation, scan a bin label, a labeled case and a previously collected bag on the destination installation. Check the bin’s site, the case’s units and the original handover reference. Open an old QR URL with the normal phone camera and repeat using the signed-in WMS scanner. In a test account for a second merchant that also uses `UBI-0047`, open the first merchant’s link and verify it exposes no location details. A bare code carries no merchant identity, so check the active merchant, expected site and physical sign before confirming work. Try the wrong site and a retired ID. Every lookup or redirect should produce zero stock movements. [Location IDs and aliases](../operations/location-addressing.md) · [Installation and domain changes](../architecture/enterprise-installation.md)
+
 ## Printing with equipment already on site
 
 For occasional labels, try an existing office printer with compatible label sheets or a shelf insert. For repeated single-label work, try an installed roll printer through its normal operating-system driver. Record the precise model, driver, device used to print, stock dimensions, connection and available consumables. Measure setup time, parts of sheets discarded, failed prints and replacement frequency. Those observations can justify a dedicated label printer without guessing at local cost or compatibility.

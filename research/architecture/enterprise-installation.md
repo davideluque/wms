@@ -50,7 +50,25 @@ For independent operation, design core login, stock reads and postings, history,
 
 For a concrete exit rehearsal, restore a six-bag transfer with four received, two still in transit and a webhook acknowledgment outstanding. The example includes exact payload bytes, a digest manifest and the expected balances after reimport. [Worked merchant export and partial-transfer replay](tenant-export-example.md)
 
+At shift handover, ask the receiving lead to account for an offline scanner and one already printed shelf label. Have the dispatcher account for a parcel whose channel acknowledgement was lost and a line edited during the move. Record the command, bin, parcel and order-line references each person used to find the current state. These checks exercise the work that remains physically on the floor when the destination database is ready. [Scanner queue after a redirect](offline-capture-trial.md#changing-the-address-on-an-active-scanner) · [Shelf labels at the new installation](../experience/labels-and-printing.md#taking-printed-labels-to-a-new-installation) · [Shopify order edits during cutover](../integrations/shopify.md#switch-wms-while-the-shop-still-accepts-order-edits)
+
 ## Who operates what?
+
+### Staff sign-in and authorship at the new installation
+
+During a move, keep a merchant-scoped staff ID on each historical action. An imported receipt can still say who counted the bags when that person has left the company. Resolve sign-in separately. Under OpenID Connect, the issuer and subject together identify a user seen by the application. An email address can be reassigned. A provider using pairwise identifiers can issue a different subject when the client moves to a different sector. Compare the actual source and destination registration before assuming a worker will present the same identity. [OpenID Connect claim stability](https://openid.net/specs/openid-connect-core-1_0.html#ClaimStability) · [Pairwise subject identifiers](https://openid.net/specs/openid-connect-core-1_0.html#PairwiseAlg)
+
+Use the following three entries in the buyer's cutover rehearsal. They are proposed acceptance checks using fictional staff. The merchant owner confirms the staff roster and the destination administrator verifies the new sign-ins.
+
+| Source record | Action at cutover | What the supervisor should see |
+| --- | --- | --- |
+| Inés counted four bags on transfer T-17. She still works at the store, and her destination identity has a new issuer. | Verify Inés against the roster, link her new sign-in to her existing merchant staff ID and approve the store receiving role. Record who approved the link. | The original count still belongs to Inés. She can sign in afresh to receive the remaining two bags at the store. |
+| A former manager's business email has passed to a new employee. | Keep the former manager inactive. Enrol the new employee under a distinct staff ID and grant the role selected by the merchant. | Past adjustments still name the former manager. The new worker can perform only their approved tasks. |
+| An operator has active memberships at merchants A and B in the pooled service. Only A is moving. | Import A's actor history and review A's site grants. Check B's access on the pooled service with that operator. | A's dedicated installation shows only A's tasks. B still has its worker and historical records. |
+
+Before enabling writes, give the shift lead the list of unresolved identity mappings and unowned tasks. A supervisor may take over an open receipt under their own ID, preserving the original observer on the earlier count. Keep sessions, outstanding invitations and old authentication credentials out of the import. Reissue access locally after approval. Record the roster reconciliation with the ledger and outstanding-work report. [Merchant membership and shift handoff](../experience/merchant-account.md) · [Transfer export with named observers](tenant-export-example.md)
+
+### Service responsibilities
 
 | Question | Pooled SMB service | Customer-operated enterprise installation |
 | --- | --- | --- |

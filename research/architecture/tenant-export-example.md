@@ -77,3 +77,115 @@ An in-memory Python rehearsal read the five payloads directly from this note. Th
 
 The merchant should receive a completion report stating the checkpoint, file and row counts, quantities per site and disposition, unresolved work and integration state. For a rehearsal, run again with B’s colliding identifiers, alter one byte of A’s slip, retry the accepted four-bag receipt and reimport the same bundle. A production exit also requires the complete schema, all affected SKUs and historical pack revisions, grants and identity remapping, outstanding reservations and holds, declared export coverage, attachment authorization checks, fence verification and proof of zero external traffic while publishers are held. [Merchant account exit](../experience/merchant-account.md#who-can-act-when-the-account-changes)
 
+## A late scanner write during the move
+
+A local trial on 26 November 2026 used Python 3.12.3 and two native SQLite 3.45.1 databases. A’s initial export ended at revision 3 with two bags in transit and four at the store. The destination started closed to writes. On the source, every receipt checked A’s write permission in the same transaction that consumed the remaining transfer quantity. Closing the source to A’s writes and reading its final revision also formed one transaction.
+
+| Controlled order of events | Source checkpoint | Observed destination result |
+| --- | ---: | --- |
+| The old scanner posted one bag before the source fence, and its reply was lost. | 4. The first fence attempt encountered the open writer. After the writer committed, the fence captured revision 4. | Importing through 4 included the scanner’s original outcome. Its retry returned 4 and moved zero additional bags. |
+| The fence closed first. The scanner sent its one-bag observation to the old address afterward. | 3. The source declined the write. | After activation the same command posted once at the destination as revision 4. A second retry returned 4. |
+
+In both cases the original four-bag receipt still returned revision 3. A retry changing the one-bag payload to two returned a conflict. Two different clerks then claimed the last pending bag. We ran both arrival orders: the first posted revision 5 and the other went to review. The destination ended with **0 in transit and 6 at the store**, and the old installation remained fenced for A. While A was fenced and its destination still closed, B used the same scanner command ID at the source and increased its own store from nine bags to ten. B was absent from the destination.
+
+**Pilot implication.** Keep the original observation and command ID on the scanner until the authoritative destination settles it. Copy the source’s command results through the final fenced checkpoint before opening the new writer. Route a conflicting second physical observation to a person. An installation returning “fenced” establishes no stock outcome by itself.
+
+<details>
+<summary>Repeat the four schedules with Python’s standard library</summary>
+
+Save as `trial.py` and run `python3 trial.py`. The source and destination are temporary SQLite files. The copy runs at controlled quiescent points and replaces the small fixture state for A. The test exercises one source write lock and both serial orders of the destination contenders. SQLite permits only one simultaneous writer per database, so B’s observed progress was **after the fence committed**, while A’s migration was still underway. Directory routing, authentication, multi-node failures, loss of physical evidence and delivery to external systems remain separate trials.
+
+```python
+import sqlite3
+from pathlib import Path
+from tempfile import TemporaryDirectory
+
+def connect(path):
+    return sqlite3.connect(path, isolation_level=None, timeout=0)
+
+def setup(db):
+    db.executescript("""
+      PRAGMA journal_mode=WAL;
+      CREATE TABLE site(m TEXT PRIMARY KEY, active INTEGER, rev INTEGER, transit INTEGER, store INTEGER);
+      CREATE TABLE done(m TEXT, id TEXT, qty INTEGER, result INTEGER, PRIMARY KEY(m,id));
+    """)
+
+def receive(db, m, key, qty):
+    active, rev, pending, store = db.execute(
+        "SELECT active,rev,transit,store FROM site WHERE m=?", (m,)).fetchone()
+    if not active:
+        return "fenced"
+    old = db.execute("SELECT qty,result FROM done WHERE m=? AND id=?", (m,key)).fetchone()
+    if old:
+        return old[1] if old[0] == qty else "conflict"
+    if qty <= 0 or qty > pending:
+        return "review"
+    db.execute("UPDATE site SET transit=?,store=?,rev=? WHERE m=?",
+               (pending-qty,store+qty,rev+1,m))
+    db.execute("INSERT INTO done VALUES (?,?,?,?)", (m,key,qty,rev+1))
+    return rev+1
+
+def txn(db, fn, *args):
+    with db:
+        db.execute("BEGIN IMMEDIATE")
+        return fn(db,*args)
+
+def fence(db):
+    return db.execute("UPDATE site SET active=0 WHERE m='A' RETURNING rev").fetchone()[0]
+
+def copy_a(src, dst):
+    # Source is quiescent at each of these two deliberate observation points.
+    row = src.execute("SELECT m,0,rev,transit,store FROM site WHERE m='A'").fetchone()
+    done = src.execute("SELECT * FROM done WHERE m='A'").fetchall()
+    with dst:
+        dst.execute("BEGIN IMMEDIATE")
+        dst.execute("INSERT OR REPLACE INTO site VALUES (?,?,?,?,?)", row)
+        dst.execute("DELETE FROM done WHERE m='A'")
+        dst.executemany("INSERT INTO done VALUES (?,?,?,?)", done)
+
+def run(root, old_first, contenders):
+    src, gate, dst = connect(root/"old.db"), connect(root/"old.db"), connect(root/"new.db")
+    setup(src)
+    setup(dst)
+    src.executemany("INSERT INTO site VALUES (?,1,3,?,?)", [("A",2,4),("B",1,9)])
+    src.execute("INSERT INTO done VALUES ('A','accept-17-1',4,3)")
+    copy_a(src,dst)
+    assert txn(dst,receive,"A","late",1) == "fenced"
+    if old_first:
+        src.execute("BEGIN IMMEDIATE")
+        assert receive(src,"A","late",1) == 4
+        try:
+            txn(gate,fence)
+        except sqlite3.OperationalError as exc:
+            assert exc.sqlite_errorcode == sqlite3.SQLITE_BUSY
+        else:
+            raise AssertionError("fence passed an active writer")
+        src.commit()  # Its reply never reaches the scanner.
+    cutoff = txn(gate,fence)
+    assert cutoff == (4 if old_first else 3)
+    assert txn(src,receive,"A","late",1) == "fenced"
+    assert txn(src,receive,"B","late",1) == 4
+    copy_a(src,dst)
+    assert dst.execute("SELECT rev FROM site WHERE m='A'").fetchone() == (cutoff,)
+    assert dst.execute("SELECT count(*) FROM site WHERE m='B'").fetchone() == (0,)
+    dst.execute("UPDATE site SET active=1 WHERE m='A'")
+    assert txn(dst,receive,"A","accept-17-1",4) == 3
+    assert txn(dst,receive,"A","late",1) == 4
+    assert txn(dst,receive,"A","late",1) == 4
+    assert txn(dst,receive,"A","late",2) == "conflict"
+    assert [txn(dst,receive,"A",k,1) for k in contenders] == [5,"review"]
+    assert dst.execute("SELECT rev,transit,store FROM site WHERE m='A'").fetchone() == (5,0,6)
+    assert src.execute("SELECT rev,store FROM site WHERE m='B'").fetchone() == (4,10)
+    assert src.execute("SELECT rev,active FROM site WHERE m='A'").fetchone() == (cutoff,0)
+    print(f"source fence={cutoff}, late result=4, winner={contenders[0]}, A transit/store=0/6, B store=10")
+    for db in (src,gate,dst):
+        db.close()
+
+for old_first in (True,False):
+    for pair in (("clerk-1","clerk-2"),("clerk-2","clerk-1")):
+        with TemporaryDirectory() as temp:
+            run(Path(temp),old_first,pair)
+```
+
+</details>
+
