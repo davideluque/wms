@@ -13,6 +13,8 @@ For the first site, make a scan answer three questions. Which object did the ope
 
 Store identifiers as strings to preserve leading zeroes. Capture the scanner’s original output and symbology where available. EAN/UPC retail scans can give a GTIN alone. A GS1-128 or GS1 DataMatrix scan can supply several AIs. Use the GS1 syntax dictionary to validate field lengths, separators, check digits and AI associations. Preserve ASCII group separators from the device. An unknown scan can go to a human for identification while the receipt remains in progress. [GS1 barcode syntax resources](https://ref.gs1.org/tools/gs1-barcode-syntax-resource/) · [GS1 guide to barcode syntaxes, §7](https://ref.gs1.org/guidelines/2d-in-retail/)
 
+An offline trial of the official GS1 engine showed that omitting a scanner separator can turn a lot and an expiry into one syntactically valid lot. It also distinguishes retail GTINs, pallet identifiers and the merchant’s internal bin codes. [Eight scan fixtures and observed parser results](barcode-capture-trial.md)
+
 ## Printing an outbound pallet label
 
 On a GS1 Logistic Label, the SSCC is the sole universally required data element. The company building the pallet normally assigns it using its GS1 Company Prefix. For a homogeneous pallet, adding AI 02 for the contained trade item requires AI 37 for its count and AI 00 for the pallet. The label rules exclude combining AI 01 and AI 02. For a mixed pallet assembled for transport, identify the pallet by SSCC and exchange its item-level contents in the despatch advice. [GS1 Logistic Label Guideline, §§3–4, 10](https://ref.gs1.org/guidelines/logistic-label/)

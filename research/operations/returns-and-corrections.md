@@ -14,9 +14,13 @@ At the returns counter, ask which item came back, how many units staff can accou
 
 At receipt, link the source order and line, original handover, received variant and unit, quantity, receiving site, actor and time. Track the decision on each received quantity through release, continued hold, supplier return or disposal. Queue unknown receipts, wrong variants, conflicting source restocks and quantities above the remaining returnable amount for review. Staff can record the physical arrival while its ownership is unresolved. The connector needs distinct references for receipt, disposition, refund and replacement so replaying one cannot repeat the others. [ERPNext linked return quantities](https://docs.frappe.io/erpnext/sales-return) · [Shopify partial returns](https://help.shopify.com/en/manual/fulfillment/managing-orders/returns/processing-returns)
 
-## A shortage reported after the truck has left
+## A customer-approved replacement
+
+**Substitution before departure.** A clothing order requests two blue M shirts. One passes inspection and the other is damaged. The customer accepts a black M instead. Keep the original demand for two blue M, the damaged blue unit on hold, the authorizer and the customer's decision, and the linked replacement line for one black M. Release or revise the unfilled blue commitment and reserve the black variant. Record the actual dispatch of one blue and one black. If the black item is unavailable by the time approval arrives, preserve that approval and reopen sourcing. The POS decides whether a price change or credit is due. A catalog rename would give the receiving clerk, picker and customer incompatible versions of the sale. [Catalog identities](catalog-and-units.md) · [Channel order edits and reconciliation](../integrations/shopify.md#edits-outages-and-reconciliation)
 
 Use the parcel’s guide to retrieve the carrier acceptance record and delivery evidence. Each answers a different question about custody. [Evidence for carrier acceptance and recipient delivery](../integrations/venezuela-carriers.md#booking-physical-handoff-and-proof)
+
+## A shortage reported after the truck has left
 
 Suppose the warehouse posted a dispatch of six shirts and the customer reports receiving five. Preserve the original dispatch and record a one-unit discrepancy against the line and shipment. Ask the warehouse to check the staging area and pick record. Ask the carrier for its collection or delivery evidence, including what its signature actually covers. A signature for one sealed parcel establishes receipt of a parcel. It leaves the number of shirts inside unresolved.
 

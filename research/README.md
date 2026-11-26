@@ -12,6 +12,9 @@ These notes combine published sources, proposed design choices, and questions fo
 | [PostgreSQL merchant isolation](architecture/tenant-isolation-trial.md) | Twelve assertions passed for merchant-scoped reads and writes, a composite foreign key, reuse after rollback and privileged-role behavior. | Two synthetic merchants in a disposable native PostgreSQL 16.15 cluster |
 | [Offline observation capture](architecture/offline-capture-trial.md) | An aborted observation and command rolled back together. A repeated command retained its original quantity after a browser restart. | Local Chromium storage; separate merchant keys on one origin still require application authorization |
 | [Floor-plan marker and list](experience/warehouse-map.md#browser-feasibility-check) | The marker remained aligned with its shelf at two screen sizes. Keyboard selection worked through the HTML list with the diagram removed. | A synthetic SVG fixture in headless Chromium |
+| [HTTP contract comparison](architecture/server-tooling.md#observed-http-contract-on-two-frameworks) | Across 32 requests, the default validators differed on numeric input. With strict settings both frameworks agreed on all eight receipt cases. | Loopback HTTP and exact decimal-string validation, without database or latency measurements |
+| [Enterprise export replay](architecture/tenant-export-example.md#replay-evidence-and-limits) | Five file hashes matched. Reimporting kept the two outstanding bags in transit, and a foreign merchant's attachment was rejected. | Synthetic in-memory import and a held delivery record |
+| [GS1 scan capture](standards/barcode-capture-trial.md) | Removing one separator produced a valid but different lot and no expiry. An item requiring expiry needs a separate field check. | Eight synthetic scanner outputs through the official syntax engine, without physical image decoding |
 | [Pilot stock walkthrough](operations/pilot-balance-replay.md) | Ten units reconciled across six distinct commands, including a sale and a partially received transfer. | A Python arithmetic model |
 
 ## Merchant discovery and local context
@@ -69,6 +72,7 @@ These notes combine published sources, proposed design choices, and questions fo
 | --- | --- |
 | [Tenant URLs and data isolation](architecture/tenant-isolation.md) | How does an ordinary merchant sign in, and what keeps its stock, files and integrations private? |
 | [Customer-operated enterprise installations](architecture/enterprise-installation.md) | What must ship for a customer to control its domain, data and network while running the same release? |
+| [Tenant export and restore example](architecture/tenant-export-example.md) | Can a merchant take an unfinished transfer and its evidence to another installation while preserving who owns every record? |
 | [Race conditions](architecture/race-conditions.md) | Which decisions must be coordinated when a second order, cancellation or hold arrives concurrently? |
 | [Replaceable modules](architecture/replaceable-modules.md) | Which decisions can vary independently and who owns each stock change? |
 | [Web and mobile options for 2027](architecture/web-to-mobile.md) | Which parts of the floor application can travel from browser to native, and what would justify that investment? |

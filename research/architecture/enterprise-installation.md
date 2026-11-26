@@ -48,6 +48,8 @@ For independent operation, design core login, stock reads and postings, history,
 4. **Prove recovery in isolation.** Restore into a clean customer-controlled environment with external publishers held. Compare opening stock plus movements to balances by site, unit and disposition. Verify open reservations, pending transfers, exceptions, audit links, attachment hashes and replayed commands. Inspect carrier and checkout acknowledgments before clearing the outbound hold. Confirm that production endpoints receive zero callbacks from the rehearsal.
 5. **Prove scoped export and exit.** For a pooled-to-dedicated move, create A and B with identical external receipt IDs and distinct files. Move only A at a fenced checkpoint. Verify A’s authorized user can retrieve each expected object and that the manifest, restored database, search results, support output and webhook queue contain no B business data. Leave B operational. If the customer exits, supply its documented export, revoke credentials, detach domains and agree retention and eventual expiry of backup copies. [Tenant migration procedure](tenant-isolation.md)
 
+For a concrete exit rehearsal, restore a six-bag transfer with four received, two still in transit and a webhook acknowledgment outstanding. The example includes exact payload bytes, a digest manifest and the expected balances after reimport. [Worked merchant export and partial-transfer replay](tenant-export-example.md)
+
 ## Who operates what?
 
 | Question | Pooled SMB service | Customer-operated enterprise installation |
