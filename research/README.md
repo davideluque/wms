@@ -22,6 +22,11 @@ These notes combine published sources, proposed design choices, and questions fo
 | [Ice, farm and clothing businesses](discovery/three-merchant-scenarios.md) | Which stock operations travel across businesses, and which require measured weights, lot tracking or exact variants? |
 | [Opening inventory and cutover](operations/opening-inventory.md) | How does a merchant begin with trustworthy balances while sales continue? |
 | [Venezuelan parcel carriers](integrations/venezuela-carriers.md) | What evidence distinguishes a printed guide, a booked pickup, carrier acceptance and delivery? |
+| [Spanish merchant interview guide](discovery/merchant-conversations.md) | How can the first ice, farm and clothing conversations start with a recent sale and a real discrepancy? |
+| [Existing alternatives](discovery/existing-alternatives.md) | Would a configuration change or a small integration solve the merchant's actual problem? |
+| [Order routing and pickup](operations/order-routing.md) | Which site can fulfill the whole order and honor a customer's chosen pickup point? |
+| [Returns and corrections](operations/returns-and-corrections.md) | What changes when an item is refunded, physically returned, exchanged or found after dispatch? |
+| [Code practices](architecture/code-practices.md) | How do importers and screens share stock rules, and how do new pack sizes preserve historical balances? |
 
 The [decisions for the retail pilot](../DECISIONS.md) record working assumptions and the evidence that could change them.
 
