@@ -36,6 +36,14 @@ Pide reconstruir una sola venta en la que el cliente se llevó la mercancía mie
 
 Termina con la pregunta «Si mañana vuelves a importar ese comprobante, ¿qué cantidad debería ver la siguiente persona y por qué?». [Ensayo de conteo inicial con dos cajas](../operations/opening-inventory.md) · [Qué conserva la sincronización de AROA](../integrations/aroa-pos.md#can-a-synchronized-sale-identify-the-store)
 
+### Dos cajas para varias tiendas antes de la última salida
+
+Con quien coordina dos o tres tiendas, empieza por un día real. «¿Recuerdas la última vez que varias sucursales pidieron el mismo producto y el depósito no alcanzó a surtirlas a todas? Muéstrame qué sabías cuando todavía daba tiempo de cargar el camión». Para cada tienda, anota las unidades disponibles a esa hora, los retiros ya prometidos, la demanda de mostrador estimada y la reposición confirmada con su hora de llegada. Pide el conteo, mensaje o comprobante que respalde cada dato. Marca las estimaciones y las cajas registradoras pendientes de sincronizar.
+
+Si hace falta contrastar criterios, plantea este ejemplo: «Quedan dos cajas cerradas de seis unidades. El camión sale a las 14:00. Centro tiene cuatro unidades prometidas para retiro y el estante vacío. Norte pide ocho para mostrador. Si tienes una tercera tienda, agrega su solicitud real. ¿Qué cargas para cada una, qué queda pendiente y a quién avisas?». Pregunta si pueden abrir una caja y qué cambiaría si una solicitud llega a las 14:05. En el caso real, compara lo pedido, cargado y recibido por tienda, la hora de entrega y los pedidos que quedaron sin atender.
+
+«Con esos mismos datos mañana, ¿qué puede sugerir el sistema por su cuenta? ¿Quién puede aprobar que se aparten las cajas? ¿Qué dato te haría detener el despacho?». Anota el cargo que autoriza cada paso, los límites y una excepción reciente. Pídele que pruebe su regla con el reparto real antes de proponer automatizarlo. [Reposición entre tiendas](../operations/store-replenishment.md)
+
 ### Cierre de la conversación
 
 Pide permiso para anotar los pasos y conservar un ejemplo sin datos personales. Anota las palabras que usa el equipo para unidad, existencia, apartado, faltante y entrega. Para cada cifra, identifica su unidad y el lugar al que corresponde. Pregunta cuánto tiempo tomó la última corrección, con qué frecuencia ocurre y a quién afecta. En la siguiente visita, contrasta ese recuerdo con registros o mediciones. [Cómo observar una entrega y reconstruir lo ocurrido](first-warehouse.md#follow-one-shipment)

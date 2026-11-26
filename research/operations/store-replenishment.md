@@ -16,6 +16,29 @@ If the resulting position is below the minimum, propose enough to reach the targ
 | The remaining unit is declared lost after investigation. | Resolve the outstanding line with a documented loss. Planning position returns to 3. It is above minimum, so no new suggestion is raised. |
 | Two stores request 3 each from the same 5 units. | After one approval, the other proposal shows at most 2 source units. Re-evaluate and request a decision on the shortfall. |
 
+## Two cases for three stores
+
+Three stores share one supplying warehouse and one truck that can reach all three before opening. Suppose the warehouse physically holds 17 units, including two on quality hold and three already promised to customers. The manager also keeps four uncommitted units for local sales. That leaves **8 eligible units in two sealed cases of four**. On this run the merchant ships whole cases, allows no store to exceed its target and has no other confirmed inbound. Every store has triggered its minimum.
+
+| Store | Available before the truck arrives | Minimum | Target | Whole cases needed to reach minimum |
+| --- | ---: | ---: | ---: | ---: |
+| A | 0 | 6 | 8 | 2 |
+| B | 1 | 4 | 5 | 1 |
+| C | 2 | 5 | 6 | 1 |
+
+The table below lists every way to place both cases within those limits. To reproduce it, assign zero, one or two cases to each store, keep triples that sum to two and discard any that exceed a store target. Add four units per case to its opening balance. These destination balances assume full, saleable receipt before opening.
+
+| Cases to A / B / C | Destination balances after receipt | Stores at or above minimum |
+| --- | --- | --- |
+| 2 / 0 / 0 | 8 / 1 / 2 | A |
+| 1 / 1 / 0 | 4 / 5 / 2 | B |
+| 1 / 0 / 1 | 4 / 1 / 6 | C |
+| 0 / 1 / 1 | 0 / 5 / 6 | B and C |
+
+Sending a case each to B and C gets two stores above minimum and leaves A unable to sell a single unit. A case each to A and B lets every store open with stock, and leaves C three units below minimum. A manager covering a large morning order at A might choose differently again. If that order becomes a firm customer commitment, include it explicitly and recalculate. Applying a rule to stores in database order would make a business choice without the merchant's knowledge. Oracle's distribution-planning documentation likewise distinguishes demand priority, sharing scarce supply and order multiples. [Oracle distribution planning and allocation](https://docs.oracle.com/cd/E18727_01/doc.121/e13358/T309464T471624.htm)
+
+For the MVP, group suggestions that compete for the same source, item and departure. Put the units available to allocate above the store rows. Show each store's hours at zero, known upcoming demand, next feasible delivery and proposed balance. Let the manager change the case distribution and record the reason. Approving both cases reserves eight source units. The warehouse still physically holds 17 until dispatch. Until receipt, the shops can offer **0 / 1 / 2** even if the driver has already left. If a second store misses the cutoff or the source loses a case, show the changed offer for approval. [How to interview the store manager](../discovery/merchant-conversations.md) · [Open replenishment decision](../../DECISIONS.md)
+
 ## Receiving a transfer in parts
 
 Give the transfer, each physical departure, and each receiving observation their own references. A transfer can remain open while one shipment is fully accounted for. Shopify documents partial receipts and lets an operator correct previously received quantities. Its **Reject** action records the rejection without updating location quantities, while **Cancel** can restore items never shipped to the origin. A connector needs a custody check before mapping either action to a WMS movement. [Shopify transfer receiving and corrections](https://help.shopify.com/en/manual/inventory-and-locations/inventory-transfers/receiving-and-managing-transfers)
@@ -47,4 +70,17 @@ During the pilot, replay real sales and transfer history chronologically using o
 
 For that replay, take one store and one fast seller. Collect the opening balance, sales with their actual occurrence and upload times, holds, transfer approval/departure/receipt times, and the arrival estimate known when each suggestion appeared. Record requests the store could not fill separately if the merchant tracks them. A day with zero completed sales during a stockout does not establish zero demand. Report elapsed selling hours without eligible stock, repeated suggestions for already covered supply and additional trips. Test the same history with approval required, with alternative lead times and with constrained source supply before proposing unattended transfers.
 
-**Open decision.** Customer reservations, scarce stock distribution between stores, package multiples and supplier replenishment can each change an otherwise sensible answer. Begin with operator approval and make the suggested arithmetic visible. [Retail pilot decisions](../../DECISIONS.md)
+**Open decision.** Customer reservations, scarce stock distribution between stores, package multiples and supplier replenishment can each change an otherwise sensible answer. Begin with operator approval and make the suggested arithmetic visible. [How to evaluate thresholds against past sales](../discovery/first-warehouse.md) · [Retail pilot decisions](../../DECISIONS.md)
+
+## When twelve free bags cannot fill a two-case transfer
+
+A warehouse has three sealed six-bag cases and six loose bags, **24 bags on hand**. Store A’s draft asks for two intact cases. Store B approves one case before A. With the other two cases still intact, A’s request could still fit. A local Python 3.12.3 fixture then exercised two changes before A’s approval.
+
+| Change after B’s approval | Source still free | Outcome when A approves the original two cases |
+| --- | --- | --- |
+| A customer reserves one remaining sealed case. | 12 bags: one free sealed case and six loose bags. | Send to review. A gains zero confirmed incoming. |
+| A worker opens one remaining case and places all six bags in loose stock. | 18 bags: one free sealed case and twelve loose bags. | Same result, even though the loose bags alone could cover twelve. |
+
+To repeat, label the three cases C1–C3, commit C1 to B, then either commit C2 to the customer or open C2. Retry A’s original approval twice. B should have six bags incoming and A zero. Show A’s manager “Requested 2 intact cases (12 bags). Available 1 intact case (6 bags).” Let the manager keep the full request pending or explicitly approve one case and see a six-bag shortfall against the original request. Reusing the previous approval ID for the changed quantity returned a conflict in the fixture. A new one-case approval, retried twice, committed C3 once. Both stores then had six incoming and the warehouse still held all 24 bags pending dispatch.
+
+The two runs used named packs and sequential decisions in memory. In a live approval, recheck the destination need, source commitments and intact eligible packs together when recording the decision. If the revised offer changes again, show it for review. The exercise validates the distinction between bag count and eligible sealed cases. Database isolation and the merchant’s willingness to accept a smaller transfer still need a pilot test. [Intact packs and base units](catalog-and-units.md)

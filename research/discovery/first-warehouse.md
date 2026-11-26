@@ -24,6 +24,14 @@ For the example of a short delivery, measure the time from physical receipt to s
 
 An initial prototype is worth building when the team can replay the ordinary case and its exception, name the next person affected, and identify a measurable improvement. If uncertainty remains over who can release stock or who owns discrepancies, another conversation with that role is likely to teach more than a broader feature survey.
 
+## Can last month’s sales justify a replenishment threshold?
+
+Pick one store, SKU and route. Mark when the shelf was empty, when each register sale became visible centrally, and when transfer requests had to reach dispatch. A retailer that sold its last four bags by noon has evidence of four sales. The register alone cannot reveal how many afternoon customers left or bought a substitute. Record denied requests separately and label the remaining demand unknown. Research on vending-machine stockouts found that substitution can also inflate sales of the alternative item. [Anupindi, Dada and Gupta on stockouts and substitution](https://doi.org/10.1287/mksc.17.4.406)
+
+Rehearse the actual decision time. Suppose a Friday 09:55 sale synced at 10:20, after a 10:00 route cutoff. A replay that gives the manager that sale at 09:55 invents an opportunity to load Friday’s truck. Use only information then visible, including any documented phone call. Check the next actual truck and the store’s receiving hours to establish when stock could become usable. [a2 on delayed branch synchronization](https://a2.com.ve/producto/13-manager-punto-de-ventas/) · [Dynamics planning with shipping and receiving calendars](https://learn.microsoft.com/en-us/dynamics365/supply-chain/master-planning/supplier-requested-confirmed-dates)
+
+Compare candidate minimums on later, held-out shifts. Show actual stockout hours, trips and units held alongside the simulated outcomes for each minimum. Try a range of plausible unmet requests during empty-shelf periods. If the preferred threshold changes across that range, use manager-approved suggestions and collect another route cycle of evidence before automating it. [Store replenishment rule and trial](../operations/store-replenishment.md)
+
 ## How to tell whether the pilot helped
 
 Agree on the window, denominator and evidence for each measure with the merchant before comparing results. Record a baseline on the same kinds of shifts and report the number of observations beside every percentage. A first week with more reported discrepancies can mean that staff finally have somewhere to record them. Inspect the cases before attributing a cause.
