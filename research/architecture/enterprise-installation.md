@@ -16,6 +16,24 @@ Agree a support matrix for the trial. One documented image runtime and one teste
 
 ## Keep the customer in control of the domain and network
 
+For an enterprise review, draw the boundary around an actual order. This proposed flow uses the customer's domain and treats each external connector as an independently authorized destination.
+
+```mermaid
+flowchart LR
+    subgraph Customer["Customer-controlled environment"]
+        Floor["Store or warehouse device"] --> App["WMS at customer DNS"]
+        App --> Ledger["Stock, orders and work history"]
+        App --> Files["Labels and handover evidence"]
+        App --> Queue["Pending integration deliveries"]
+        Queue --> Adapter["Customer-enabled connector"]
+    end
+    Checkout["Sales channel"] -->|"Order and line references"| App
+    Adapter -->|"Availability or fulfillment status"| Checkout
+    Adapter -->|"Parcel, service and required destination fields"| Carrier["Selected carrier"]
+```
+
+An enterprise customer that enters orders manually can run the core workflow with both external connectors disabled. For a connected merchant, document each direction separately. A channel sending an order does not entitle it to a copy of every stock movement. A carrier may require a destination address and contact detail to deliver a parcel. It does not need other orders, staff activity or total warehouse balances. List the exact fields, destination, trigger, credential owner and retention behavior for each selected connector. Include the program's logs, outbound retries and operator-created support bundles in the review. [Merchant API and webhook contract](../integrations/merchant-api.md) · [Venezuelan carrier handoffs](../integrations/venezuela-carriers.md)
+
 The customer registers and controls its hostname, routing and TLS certificates. Register that exact origin for login callbacks and generate canonical links and webhook targets from approved configuration. Use the customer's identity provider with a documented issuer, audience, key rotation and recovery administrator procedure. Provide an authentication option reachable inside the customer network. Map users to authorized merchant roles and sites after sign-in. A new hostname is a new browser origin, so finish or reconcile queued device observations before changing it. [OpenID Connect Core](https://openid.net/specs/openid-connect-core-1_0.html) · [Multitenant domain lifecycle](https://learn.microsoft.com/en-us/azure/architecture/guide/multitenant/considerations/domain-names)
 
 For independent operation, design core login, stock reads and postings, history, printing, exports, background work and recovery to use only customer-controlled services. Ship static assets locally. Updates and license renewal, if applicable, should support verified packages transferred by the customer and an explicit offline policy. Telemetry and remote support are opt-in. An installation that loses access to a configured carrier records the booking as pending or uncertain and exposes the manual handoff path. External integrations necessarily depend on the services the customer enables.

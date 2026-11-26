@@ -2,6 +2,8 @@
 
 These questions are open for the product owner. Research can proceed under the working assumptions below. A proposed default becomes a product decision when we record who agreed, when, and the supporting evidence.
 
+**Direction already set.** The first customers are small and medium businesses. The product should support a hosted service and allow an enterprise to run its own installation with its own domain, infrastructure and control over data flow. The open choices concern implementation, proof and rollout. The ice, farm and clothing businesses are discovery candidates. Participation and product fit have yet to be established.
+
 | Choice to revisit | Working assumption | Evidence that would change it |
 | --- | --- | --- |
 | Which merchant and sales channel go first? | Design for one Venezuelan retailer that owns its stock. Support manual sales and one connected checkout. Evaluate Shopify and AROA POS. | A willing pilot merchant shows its actual sales mix, exports, stock adjustments and a recurring problem. Prioritize the channel that reproduces that problem. |
@@ -17,6 +19,13 @@ These questions are open for the product owner. Research can proceed under the w
 | Choice to revisit | Working assumption | Evidence that would change it |
 | --- | --- | --- |
 | Does a pilot need a visual floor plan? | Keep a stable identity for every pick location and support lookup by its printed code. Trial a simple 2D plan if staff lose time finding locations. | Walk a new picker through an unfamiliar aisle and compare a list, aisle signs and the same task with a map. Include a site with more than one floor or freezer room if relevant. |
-| Which tenant and installation options will we support? | Treat each merchant as one tenant with one or more sites. Investigate pooled SaaS for ordinary customers and a standalone, customer-operated installation with its own DNS and data controls for enterprise. | Validate the isolation model, per-tenant export and recovery, customer domain onboarding, install/upgrade support, integrations and any outbound data permissions before promising a service tier. |
+| How should we deliver hosted accounts and verify enterprise portability? | Pilot one merchant per tenant, vendor subdomains and pooled tables protected by row-level security. For enterprise, package the same release for the customer's domain and data services. | Rehearse tenant-scoped export and recovery, a domain change with queued work, and an independent installation with vendor connectivity disabled. Actual buyer hardware, recovery objectives and data controls determine the first supported configuration. |
+
+## Evidence for the next discussion
+
+- **Choosing a first business.** Compare the unit actually sold, the handoff at which stock becomes available and the cost of today's correction. [Three merchant scenarios](research/discovery/three-merchant-scenarios.md) · [Spanish conversation guide](research/discovery/merchant-conversations.md)
+- **Choosing a first connector.** Compare the merchant's real register workflow, who already deducts stock and which physical handovers can be reconstructed. [Shopify](research/integrations/shopify.md) · [AROA POS](research/integrations/aroa-pos.md)
+- **Choosing how staff find stock.** Try finding the same bin from both aisle entrances and on each supported device. [Shelf addresses](research/operations/location-addressing.md) · [Map options and fixture](research/experience/warehouse-map.md)
+- **Choosing a delivery model.** Compare scoped restore, support access and who controls domain, keys, updates and outbound connections. [Tenant isolation](research/architecture/tenant-isolation.md) · [Enterprise installation](research/architecture/enterprise-installation.md)
 
 The [MVP walkthrough](MVP.md) gives each decision a concrete order or stock movement to test. The [research index](research/README.md) holds the fieldwork and technical sources.

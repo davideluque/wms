@@ -54,6 +54,17 @@ Piso                    +---------------+---------------+
 
 The upper view locates the rack face. The elevation identifies one bin on it. Both resolve to the same location record, where the WMS can look up stock by its immutable ID.
 
+### Browser feasibility check
+
+On 26 November 2026, a temporary HTML fixture ran locally in headless Chromium 148.0.7778.0 through Playwright 1.60.0. To reproduce it, give an SVG a `0 0 12 8` viewBox, `xMidYMid meet` scaling, width `100vw` and height `50vh`, with zero body margin and device scale factor 1. Put a circle at (6.5, 3) and two native HTML buttons below it for receiving and bin A-03-E-02-B. Have the target circle and bin button select the same ID, `UBI-0047`.
+
+| Browser viewport in CSS pixels | Observed marker centre in viewport coordinates | Observed result |
+| --- | --- | --- |
+| 960 × 768 | (504, 144) | A pointer click at the computed point selected the marker and its list button. |
+| 360 × 640, after resize | (195, 130) | The same marker and list button stayed selected. Browser hit testing at the new point found the marker. |
+
+At both sizes, applying the browser’s inverse screen transform returned (6.5, 3) m. The centre of the circle’s rendered bounding box agreed with the computed point to within 0.01 CSS pixels. On a fresh load with the SVG removed, two Tab presses reached the bin button and Enter selected `UBI-0047`. This checks coordinate conversion, retained selection and keyboard fallback in one desktop browser engine. Touch targets, screen-reader announcements, site-device performance and actual picking time still need field tests.
+
 ## Routing, editing and disconnected work
 
 For the first floor, show “Desde recepción, siga el pasillo A hasta el módulo 03, cara E.” A rack marker alone establishes a target. A computed route additionally requires a verified graph of walkable aisle segments, connected intersections, permitted directions and closures. End routes at the approach point. Until staff have walked the graph, offer the address and landmark directions. Keep the date and owner for layout verification.

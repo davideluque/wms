@@ -20,6 +20,10 @@ The host or path helps locate a tenant. Authorization comes from a verified iden
 
 ## Storage choices
 
+**What the service operator manages.** The hosted service needs a small tenant directory with the immutable merchant ID, verified hostnames, status and database placement. Creating a merchant should be retryable: assign one ID, create the first membership and location, then activate access after those steps succeed. A failure halfway through setup can leave it pending for recovery without exposing an empty or partly configured merchant to another user. Keep orders, staff activity, stock and customer addresses in the merchant's operational store. Billing and tenant administration do not need a copy of the stock ledger. [Microsoft guidance on multitenant control planes](https://learn.microsoft.com/en-us/azure/architecture/guide/multitenant/considerations/control-planes)
+
+In a customer-operated installation, the same lookup can resolve the configured customer domain against a local directory. Test a shift with the vendor unavailable. A dependency on a vendor hostname for every lookup or command would defeat the enterprise customer's requirement to control its own operating environment. [Independent-operation trial](enterprise-installation.md)
+
 | Layout | What it provides | What carries operational risk |
 | --- | --- | --- |
 | Shared tables, tenant column and RLS | One schema migration and efficient sharing for small accounts. A tenant can move later using a bounded export. | Missing policies or overprivileged code can expose many merchants. Queries, indexes, quotas and restore tooling must all handle tenant scope. |

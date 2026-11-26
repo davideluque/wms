@@ -37,6 +37,7 @@ These notes combine published sources, proposed design choices, and questions fo
 | Investigation | Decision it informs |
 | --- | --- |
 | [Warehouse maps](experience/warehouse-map.md) | How do we connect a physical bin to a searchable, accessible floor plan and decide whether SVG, Canvas or Leaflet fits? |
+| [Merchant accounts and staff access](experience/merchant-account.md) | How does an owner invite workers, switch businesses, transfer ownership or exit with pending stock work? |
 | [Floor workflows and accessibility](experience/floor-workflows.md) | Can a worker scan, correct a mistake and hand over a partly finished task on the site's equipment? |
 | [Exception queues for managers](experience/manager-exceptions.md) | Which interruptions need a person now, and how does that responsibility pass to the next shift? |
 | [Labels and printing](experience/labels-and-printing.md) | When does a supplier label suffice, and how do staff recover from a swapped or duplicate label? |
