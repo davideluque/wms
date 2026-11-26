@@ -4,29 +4,65 @@ Our first customer profile is a small or medium Venezuelan merchant with a sales
 
 These notes combine published sources, proposed design choices, and questions for fieldwork. We have yet to observe a pilot site. Examples with quantities are hypothetical.
 
-## Investigations
+## Merchant discovery and local context
 
 | Investigation | Decision it informs |
 | --- | --- |
 | [First warehouse and fieldwork](discovery/first-warehouse.md) | Who experiences the problem, who buys the product, and what evidence would justify a pilot? |
-| [Warehouse operations and inventory](operations/stock-and-workflows.md) | What happened physically, who can act on it, and what can the next shift trust? |
-| [Identification and exchange standards](standards/identification-and-exchange.md) | Which identifiers, labels and messages must survive the first trading-partner handoff? |
-| [Replaceable modules](architecture/replaceable-modules.md) | Which decisions can vary independently and who owns each stock change? |
 | [Local discovery in Venezuela](venezuela/local-discovery.md) | Which documents, business systems and operating conditions matter at the first site? |
+| [Ice, farm and clothing businesses](discovery/three-merchant-scenarios.md) | Which stock operations travel across businesses, and which require measured weights, lot tracking or exact variants? |
+| [Spanish merchant interview guide](discovery/merchant-conversations.md) | How can the first ice, farm and clothing conversations start with a recent sale and a real discrepancy? |
+| [Existing alternatives](discovery/existing-alternatives.md) | Would a configuration change or a small integration solve the merchant's actual problem? |
+
+## Warehouse and store operations
+
+| Investigation | Decision it informs |
+| --- | --- |
+| [Shelf and bin addressing](operations/location-addressing.md) | What code should a worker see and scan at the same shelf from either end of an aisle? |
+| [Manual picking and travel](operations/manual-picking.md) | Would better shelf identification, a different walking order or a two-order batch improve this site's work? |
+| [Common warehouse problems](operations/common-problems.md) | What should a worker check first when a bin is empty, a transfer disappears or two customers are promised the same item? |
+| [Cycle counting](operations/cycle-counting.md) | How can staff count while trading and avoid deducting a late sale twice? |
+| [Warehouse operations and inventory](operations/stock-and-workflows.md) | What happened physically, who can act on it, and what can the next shift trust? |
 | [Store replenishment](operations/store-replenishment.md) | How much should a store request when stock is scarce or a transfer is already on its way? |
+| [Opening inventory and cutover](operations/opening-inventory.md) | How does a merchant begin with trustworthy balances while sales continue? |
+| [Order routing and pickup](operations/order-routing.md) | Which site can fulfill the whole order and honor a customer's chosen pickup point? |
+| [Returns and corrections](operations/returns-and-corrections.md) | What changes when an item is refunded, physically returned, exchanged or found after dispatch? |
+| [Catalog and units](operations/catalog-and-units.md) | Can old and new pack sizes coexist and an old receipt still identify exactly what was sold? |
+| [Permissions and stock history](operations/permissions-and-history.md) | Who may report, approve and post a stock change, and how will the next shift reconstruct it? |
+| [Pilot balance replay](operations/pilot-balance-replay.md) | Can the initial ten units be reconciled across a sale, a short transfer, retries and a carrier handoff? |
+| [Perishable traceability](operations/perishable-traceability.md) | Which goods can be traced, held or recalled, and what evidence would authorize release? |
+
+## Floor and manager experience
+
+| Investigation | Decision it informs |
+| --- | --- |
+| [Warehouse maps](experience/warehouse-map.md) | How do we connect a physical bin to a searchable, accessible floor plan and decide whether SVG, Canvas or Leaflet fits? |
+| [Floor workflows and accessibility](experience/floor-workflows.md) | Can a worker scan, correct a mistake and hand over a partly finished task on the site's equipment? |
+| [Exception queues for managers](experience/manager-exceptions.md) | Which interruptions need a person now, and how does that responsibility pass to the next shift? |
+| [Labels and printing](experience/labels-and-printing.md) | When does a supplier label suffice, and how do staff recover from a swapped or duplicate label? |
+
+## Standards and integrations
+
+| Investigation | Decision it informs |
+| --- | --- |
+| [Identification and exchange standards](standards/identification-and-exchange.md) | Which identifiers, labels and messages must survive the first trading-partner handoff? |
 | [Merchant APIs and webhooks](integrations/merchant-api.md) | How can a checkout submit a sale once, recover from a lost response and reconcile missed events? |
 | [Shopify integration](integrations/shopify.md) | How do checkout, pickup and fulfillment affect stock in both systems? |
 | [AROA POS integration](integrations/aroa-pos.md) | How can a completed sale and its paid check produce a single movement at the correct store? |
-| [Floor workflows and accessibility](experience/floor-workflows.md) | Can a worker scan, correct a mistake and hand over a partly finished task on the site's equipment? |
-| [Web and mobile options for 2027](architecture/web-to-mobile.md) | Which parts of the floor application can travel from browser to native, and what would justify that investment? |
-| [Ice, farm and clothing businesses](discovery/three-merchant-scenarios.md) | Which stock operations travel across businesses, and which require measured weights, lot tracking or exact variants? |
-| [Opening inventory and cutover](operations/opening-inventory.md) | How does a merchant begin with trustworthy balances while sales continue? |
 | [Venezuelan parcel carriers](integrations/venezuela-carriers.md) | What evidence distinguishes a printed guide, a booked pickup, carrier acceptance and delivery? |
-| [Spanish merchant interview guide](discovery/merchant-conversations.md) | How can the first ice, farm and clothing conversations start with a recent sale and a real discrepancy? |
-| [Existing alternatives](discovery/existing-alternatives.md) | Would a configuration change or a small integration solve the merchant's actual problem? |
-| [Order routing and pickup](operations/order-routing.md) | Which site can fulfill the whole order and honor a customer's chosen pickup point? |
-| [Returns and corrections](operations/returns-and-corrections.md) | What changes when an item is refunded, physically returned, exchanged or found after dispatch? |
+
+## Architecture and technology
+
+| Investigation | Decision it informs |
+| --- | --- |
+| [Tenant URLs and data isolation](architecture/tenant-isolation.md) | How does an ordinary merchant sign in, and what keeps its stock, files and integrations private? |
+| [Customer-operated enterprise installations](architecture/enterprise-installation.md) | What must ship for a customer to control its domain, data and network while running the same release? |
+| [Race conditions](architecture/race-conditions.md) | Which decisions must be coordinated when a second order, cancellation or hold arrives concurrently? |
+| [Replaceable modules](architecture/replaceable-modules.md) | Which decisions can vary independently and who owns each stock change? |
+| [Web and mobile options for 2027](architecture/web-to-mobile.md) | Which parts of the floor application can travel from browser to native, and what would justify that investment? |
 | [Code practices](architecture/code-practices.md) | How do importers and screens share stock rules, and how do new pack sizes preserve historical balances? |
+| [Inventory verification](architecture/inventory-verification.md) | Can two devices reserve the last units, or a migration change a historic quantity? |
+| [Server tools for 2027](architecture/server-tooling.md) | Which HTTP, schema and database libraries make stock transactions easiest for the team to verify? |
 
 The [decisions for the retail pilot](../DECISIONS.md) record working assumptions and the evidence that could change them.
 
