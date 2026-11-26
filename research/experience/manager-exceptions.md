@@ -35,6 +35,116 @@ This tabletop example uses invented orders, times and roles. Replay it with a fl
 | 14:40 | A guide request times out. The next shift starts before the carrier replies. | Dispatch retains one case for parcel 718. The new lead accepts it and retrieves the existing guide. Physical handoff is recorded later against the collection receipt. |
 | Close | The supervisor reviews unresolved, resolved today and overdue cases. | Every open item has a next owner or a visible unowned state, a due time and physical custody recorded where relevant. Late carrier or ERP confirmations update their existing cases. |
 
+## Pickup-ready messages that race with cancellation
+
+**Observed on 26 November 2026.** A local Python 3.12.3 / SQLite 3.45.1 trial delivered the same synthetic ready event twice. One database held order 514, its revision and the intent to notify a customer. A second database represented a mock provider that accepted at most one submission per stable intent key and could look it up. No message left the process. Both workers deduplicated the event. The second also checked the current order and intent before dispatch and reconciled uncertain acceptance with the mock provider.
+
+| When cancellation occurs | Event-ID deduplication alone | Revision and intent checks |
+| --- | --- | --- |
+| Before the worker reads the ready event’s intent | Provider accepted one stale message. | Suppressed, zero submissions. |
+| After the payload was prepared, before the final check | Provider accepted one stale message. | Suppressed, zero submissions. |
+| After the final check, before provider acceptance | Provider accepted one stale message. | Provider also accepted one. The worker flagged customer follow-up after it saw the cancellation. |
+| Provider accepted while the order was ready, its reply was lost, then the customer cancelled | Two submit attempts, one provider acceptance because the provider recognized the key. The local result only said accepted. | One submit attempt. Lookup recovered the receipt and the worker flagged follow-up against the now-cancelled order. |
+
+For the pilot, persist the intent with the readiness transition. Identify the merchant, order, readiness revision, recipient and channel. Recheck eligibility when dispatching. Have the cancellation workflow also examine accepted or uncertain intents so a cancellation arriving after the worker exits still reaches the supervisor. Show **Aceptado por el proveedor** separately from delivery evidence, and **Requiere seguimiento** when an accepted notice conflicts with the current promise. A local transaction cannot revoke an accepted external message. If a provider lacks a documented idempotency or lookup guarantee, keep an ambiguous submission open for reconciliation before sending again. Confirm which system sends the ready notice when an integrated channel already notifies the customer. [Shopify pickup ownership](../integrations/shopify.md)
+
+<details>
+<summary>Repeat the deterministic local trial</summary>
+
+Save as `trial.py` and run `python3 trial.py`. Each tuple gives submit attempts, provider acceptances and local intent state. The fixture fixes the operation order with hooks. It covers a single worker, one mock provider and a single ready revision. Delivery to a handset, parallel workers and merchant/provider behavior need separate evidence.
+
+```python
+import sqlite3
+
+KEY = "shop-A/order-514/ready-v1/customer-7/sms"
+def run(guarded, schedule):
+    app, provider = [sqlite3.connect(":memory:") for _ in range(2)]
+    app.executescript("""
+      CREATE TABLE orders(state TEXT, rev INTEGER);
+      INSERT INTO orders VALUES ('ready',1);
+      CREATE TABLE inbox(event TEXT PRIMARY KEY);
+      CREATE TABLE intent(key TEXT PRIMARY KEY, rev INTEGER, state TEXT);
+    """)
+    provider.execute("CREATE TABLE accepted(key TEXT PRIMARY KEY, receipt TEXT)")
+    attempts = 0
+    def ready_event():
+        with app:
+            if app.execute("INSERT OR IGNORE INTO inbox VALUES ('event-1')").rowcount:
+                app.execute("INSERT INTO intent VALUES (?,1,'pending')", (KEY,))
+    def cancel():
+        with app:
+            app.execute("UPDATE orders SET state='cancelled', rev=2")
+    def state(value):
+        with app:
+            app.execute("UPDATE intent SET state=? WHERE key=?", (value,KEY))
+    def current():
+        return app.execute("""SELECT 1 FROM orders o, intent i WHERE i.key=?
+                              AND o.state='ready' AND o.rev=i.rev""", (KEY,)).fetchone()
+    def accept(lose_reply):
+        nonlocal attempts
+        attempts += 1
+        with provider:
+            provider.execute("INSERT OR IGNORE INTO accepted VALUES (?,'receipt-1')", (KEY,))
+        if lose_reply:
+            raise TimeoutError("mock committed before its reply was lost")
+    def worker():
+        phase = app.execute("SELECT state FROM intent WHERE key=?", (KEY,)).fetchone()[0]
+        if phase not in ("pending","uncertain"):
+            return
+        if guarded and phase == "uncertain":
+            found = provider.execute("SELECT receipt FROM accepted WHERE key=?", (KEY,)).fetchone()
+            if found:
+                state("accepted" if current() else "followup")
+                return
+        if guarded and not current():
+            state("suppressed")
+            return
+        # Payload prepared. Hooks control which operation runs before dispatch.
+        if schedule == "before-final-check":
+            cancel()
+        if guarded and not current():
+            state("suppressed")
+            return
+        if schedule == "after-final-check":
+            cancel()
+        try:
+            accept(schedule == "lost-reply" and attempts == 0)
+        except TimeoutError:
+            state("uncertain")
+            return
+        state("followup" if guarded and not current() else "accepted")
+
+    ready_event()
+    ready_event()
+    if schedule == "before-worker":
+        cancel()
+    worker()
+    if schedule == "lost-reply":
+        assert app.execute("SELECT state FROM intent").fetchone()[0] == "uncertain"
+        cancel()
+    worker()
+    n = provider.execute("SELECT count(*) FROM accepted").fetchone()[0]
+    phase = app.execute("SELECT state FROM intent").fetchone()[0]
+    assert app.execute("SELECT count(*) FROM inbox").fetchone()[0] == 1
+    app.close()
+    provider.close()
+    return attempts,n,phase
+
+for scenario, expected in [
+    ("before-worker", (0,0,"suppressed")),
+    ("before-final-check", (0,0,"suppressed")),
+    ("after-final-check", (1,1,"followup")),
+    ("lost-reply", (1,1,"followup")),
+]:
+    baseline = run(False,scenario)
+    checked = run(True,scenario)
+    assert baseline == (2 if scenario=="lost-reply" else 1,1,"accepted")
+    assert checked == expected
+    print(scenario, baseline, checked)
+```
+
+</details>
+
 ## Measures that change an operating decision
 
 | Measure | What to check and who acts |
