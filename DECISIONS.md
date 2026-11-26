@@ -24,7 +24,7 @@ These questions are open for the product owner. Research can proceed under the w
 ## Evidence for the next discussion
 
 - **Choosing a first business.** Compare the unit actually sold, the handoff at which stock becomes available and the cost of today's correction. [Three merchant scenarios](research/discovery/three-merchant-scenarios.md) · [Spanish conversation guide](research/discovery/merchant-conversations.md)
-- **Choosing a first connector.** Compare the merchant's real register workflow, who already deducts stock and which physical handovers can be reconstructed. [Shopify](research/integrations/shopify.md) · [AROA POS](research/integrations/aroa-pos.md)
+- **Choosing a first connector.** Trace a single sale from the checkout to the physical handover and the administrative system. Ask whether the branch and central office export the same transaction under different references. A merchant already using a2, Profit Plus or Saint may give us a better first handoff than either of the original candidate channels. [Shopify](research/integrations/shopify.md) · [AROA POS](research/integrations/aroa-pos.md) · [Venezuelan business systems](research/integrations/venezuelan-business-systems.md)
 - **Choosing how staff find stock.** Try finding the same bin from both aisle entrances and on each supported device. [Shelf addresses](research/operations/location-addressing.md) · [Map options and fixture](research/experience/warehouse-map.md)
 - **Choosing a delivery model.** Compare scoped restore, support access and who controls domain, keys, updates and outbound connections. [Tenant isolation](research/architecture/tenant-isolation.md) · [Enterprise installation](research/architecture/enterprise-installation.md)
 

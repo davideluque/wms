@@ -27,6 +27,19 @@ For launch, staff approve replenishment, choose how to handle an order that cann
 
 ## Acceptance walkthrough
 
+The trials below build toward the complete pilot. Each introduces a distinct risk the merchant can check before more orders depend on it.
+
+| Trial | What staff actually do | Evidence to keep |
+| --- | --- | --- |
+| First reliable stock figure | Open one location and a small set of real variants from a checked count. Receive an ordinary delivery and one discrepancy. | The next shift can find the goods, explain what is held and correct a mistake without losing the original receipt. |
+| One sale through one channel | Shadow a real sale with writes back to the channel disabled. Reconcile the order, location, handover and stock effect. Then enable one agreed writer for the pilot assortment. | Re-importing the same sale and losing its acknowledgement produce one stock effect. A late sale that was already included in the opening count keeps its commercial history. |
+| One store and one warehouse | Follow a low-stock suggestion into an approved transfer. Dispatch and receive it in parts. Use a separate pickup order to test staging and collection across shifts. | Staff can distinguish units at source, in transit, held, ready to collect and actually handed over. A second clerk cannot count the same carton or release the same pickup twice. |
+| One repeatable external handoff | Use the pilot carrier's supported booking or guide process. Connect a merchant client to the documented inventory and order interface and recover one missed notification. | The merchant can reconstruct the sale and physical handover after an interruption, using the original carrier and channel references. |
+
+Choose the first product subset and merchant with real labels and sample sales. A requirement for measured quantities, food controls or consignment changes which pilot is viable. The research library documents those decisions separately from the common stock workflow.
+
+### Ten-unit reconciliation
+
 1. Open with eight saleable units in the warehouse and two in Store A. An online order for three routes to the warehouse. Warehouse available falls to five and physical stock remains eight. Import the sale twice and check that only three units are reserved.
 2. A customer buys one unit at Store A and takes it home. The POS sale and handover reduce store stock to one. With a minimum of two and a target of four, the system suggests transferring three. The manager approves once. Two remaining warehouse units are available after both commitments.
 3. Dispatch the transfer, restart the receiving device, then receive only two units at the store. Store A now has three. One remains in transit pending investigation. Keep the transfer open and explain every unit at shift change.

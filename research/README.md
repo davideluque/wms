@@ -14,6 +14,8 @@ These notes combine published sources, proposed design choices, and questions fo
 | [Floor-plan marker and list](experience/warehouse-map.md#browser-feasibility-check) | The marker remained aligned with its shelf at two screen sizes. Keyboard selection worked through the HTML list with the diagram removed. | A synthetic SVG fixture in headless Chromium |
 | [HTTP contract comparison](architecture/server-tooling.md#observed-http-contract-on-two-frameworks) | Across 32 requests, the default validators differed on numeric input. With strict settings both frameworks agreed on all eight receipt cases. | Loopback HTTP and exact decimal-string validation, without database or latency measurements |
 | [Order and webhook recovery](integrations/merchant-api.md#local-trial-of-the-order-and-its-webhook) | After four process interruptions and full replay, three orders produced three applied events. A missing event for one merchant did not delay another. | Local SQLite producer and consumer, without external event delivery |
+| [Paging a changing inventory](integrations/inventory-catch-up.md#observed-on-native-sqlite) | A live offset scan duplicated one record, and even a stable key missed an earlier insertion. Reading a fixed snapshot and replaying changes reproduced the ledger at both checkpoints. | Three native SQLite connections and a synthetic inventory feed |
+| [Commit order and stock-feed cursors](integrations/inventory-catch-up.md) | Checkpointing the highest visible sequence ID missed a five-bag receipt. A transactionally updated revision per merchant delivered all twelve bags and let a different merchant continue writing. | Two controlled PostgreSQL 16.15 schedules, without a throughput benchmark |
 | [Enterprise export replay](architecture/tenant-export-example.md#replay-evidence-and-limits) | Five file hashes matched. Reimporting kept the two outstanding bags in transit, and a foreign merchant's attachment was rejected. | Synthetic in-memory import and a held delivery record |
 | [GS1 scan capture](standards/barcode-capture-trial.md) | Removing one separator produced a valid but different lot and no expiry. An item requiring expiry needs a separate field check. | Eight synthetic scanner outputs through the official syntax engine, without physical image decoding |
 | [Pilot stock walkthrough](operations/pilot-balance-replay.md) | Ten units reconciled across six distinct commands, including a sale and a partially received transfer. | A Python arithmetic model |
@@ -64,6 +66,7 @@ These notes combine published sources, proposed design choices, and questions fo
 | Investigation | Decision it informs |
 | --- | --- |
 | [Inventory snapshots and catch-up](integrations/inventory-catch-up.md) | Can a merchant rebuild current stock when lines change or disappear halfway through a paged read? |
+| [First order over the API](integrations/first-order-walkthrough.md) | What does a checkout send, retry and read to track one pickup sale through an unknown SKU and collection? |
 | [Identification and exchange standards](standards/identification-and-exchange.md) | Which identifiers, labels and messages must survive the first trading-partner handoff? |
 | [Merchant APIs and webhooks](integrations/merchant-api.md) | How can a checkout submit a sale once, recover from a lost response and reconcile missed events? |
 | [Shopify integration](integrations/shopify.md) | How do checkout, pickup and fulfillment affect stock in both systems? |
@@ -92,6 +95,7 @@ The [decisions for the retail pilot](../DECISIONS.md) record working assumptions
 - Use a shared handheld to switch merchants with unposted work, including a revoked membership. [Issue #1](https://github.com/davideluque/wms/issues/1)
 - Capture a real label and recover when an expiry field disappears from scanner output. [Issue #2](https://github.com/davideluque/wms/issues/2)
 - Sync an offline POS sale that happened before the opening count, then a separate sale after cutover. [Issue #3](https://github.com/davideluque/wms/issues/3)
+- Rehearse two clerks counting the same carton, then two distinct cartons carrying the same product. [Issue #4](https://github.com/davideluque/wms/issues/4)
 
 ## In what order?
 

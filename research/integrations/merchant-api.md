@@ -4,6 +4,8 @@ A useful first integration takes one order, recovers from a lost reply and answe
 
 ## First integration walkthrough
 
+The [sample pickup order](first-order-walkthrough.md) shows the actual proposed request and response shapes, including what a checkout can safely tell the customer after losing its first reply.
+
 1. Issue a revocable credential scoped to one merchant and permitted actions. A stock reader needs no order-writing rights. Map the merchant's location and product identifiers before accepting sales.
 2. Have the checkout submit its order ID, stable line IDs, requested units and fulfillment method. A store pickup includes its selected location. Resolve the merchant from the credential. Treat an unknown product or location as actionable and preserve the commercial order reference for repair.
 3. Return a WMS order identifier and lookup URL. Distinguish “order recorded, awaiting stock” from “three units reserved at Store A.” Request acceptance alone cannot establish availability.

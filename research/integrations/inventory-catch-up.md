@@ -110,3 +110,54 @@ with TemporaryDirectory() as directory:
 ```
 
 </details>
+
+## Native PostgreSQL trial — can cursor 2 hide receipt 1?
+
+**Yes.** On 26 November 2026 two application connections on PostgreSQL 16.15 wrote separate receipts for merchant A at Read Committed. R1 contained five bags and R2 seven. Each transaction wrote its receipt and event together. A separate consumer read only committed events. Both designs finished with two physical receipt records totaling twelve bags.
+
+| Revision source | What the consumer saw while R1 was open | What happened after R1 committed |
+| --- | --- | --- |
+| PostgreSQL sequence | R1 had allocated 1. R2 allocated 2 and committed first. The reader saw only `2:R2` and checkpointed 2. | The reader’s `rev > 2` query returned no rows. A full reread showed `1:R1, 2:R2`. Incremental delivery accounted for seven of twelve bags. |
+| Transactionally updated row per merchant | R1 updated A’s head from 0 to 1. R2 waited on R1’s row lock. An independent B transaction issued and committed its own revision 1 for nine bags. B’s reader saw it immediately. A’s reader saw no events and its committed head remained 0. | R1 committed, R2 resumed and committed revision 2. Starting from 0 returned both A events in order. The consumer accounted for all twelve bags. |
+
+The harness released R1 only after confirming that R2 had committed in the sequence case or that `pg_blocking_pids` identified R1 as R2’s blocker in the per-merchant case. There was no timing assumption about which writer would finish first. [PostgreSQL sequence behavior](https://www.postgresql.org/docs/16/functions-sequence.html) · [Row locks and transaction lifetimes](https://www.postgresql.org/docs/16/explicit-locking.html)
+
+**Contract implication.** Keep the revision row update, business write and event insert in the same transaction. Every publisher for that merchant stream must participate. Use the committed head and matching snapshot view for an upper bound. Serialize writers only within the ordering scope promised to consumers. The trial shows B made progress during this specific A lock. It did not measure throughput, hot-merchant wait times, parallel tenant migration or recovery from an expired cursor. A multi-merchant transaction needs a consistent lock order if it updates multiple heads.
+
+<details>
+<summary>Repeat the controlled schedules in a fresh PostgreSQL database</summary>
+
+Use the [private disposable cluster procedure](../architecture/tenant-isolation-trial.md). Start with a fresh database and run this setup under its bootstrap role. Open the writer and reader sessions as `trial_worker`.
+
+```sql
+CREATE SEQUENCE allocated;
+CREATE TABLE heads (m text PRIMARY KEY, rev integer NOT NULL);
+INSERT INTO heads VALUES ('A',0),('B',0);
+CREATE TABLE receipts (mode text, m text, k text, bags integer, PRIMARY KEY(mode,m,k));
+CREATE TABLE events (mode text, m text, rev bigint, k text, PRIMARY KEY(mode,m,rev));
+CREATE FUNCTION post(p_mode text, merchant text, receipt text, qty integer) RETURNS bigint
+LANGUAGE plpgsql AS $$
+DECLARE n bigint;
+BEGIN
+  IF p_mode = 'seq' THEN
+    n := nextval('allocated');
+  ELSIF p_mode = 'row' THEN
+    UPDATE heads SET rev=rev+1 WHERE m=merchant RETURNING rev INTO STRICT n;
+  ELSE
+    RAISE EXCEPTION 'invalid mode';
+  END IF;
+  INSERT INTO receipts VALUES (p_mode,merchant,receipt,qty);
+  INSERT INTO events VALUES (p_mode,merchant,n,receipt);
+  RETURN n;
+END $$;
+CREATE ROLE trial_worker LOGIN;
+GRANT SELECT,INSERT ON receipts,events TO trial_worker;
+GRANT SELECT,UPDATE ON heads TO trial_worker;
+GRANT USAGE ON SEQUENCE allocated TO trial_worker;
+```
+
+1. In session 1 begin a Read Committed transaction, run `SELECT post('seq','A','R1',5)` and leave it open. In session 2 run `SELECT post('seq','A','R2',7)` with autocommit on. In a fresh reader statement fetch `SELECT rev,k FROM events WHERE mode='seq' AND m='A' AND rev>0 ORDER BY rev`. Save the last visible revision (2). Commit session 1 and repeat the read with `rev>2`.
+2. In session 1 begin a fresh transaction and run `SELECT post('row','A','R1',5)`. Record its backend PID. In session 2 issue the equivalent R2 posting with mode `row` and quantity 7. From a separate observer confirm the first PID appears in `pg_blocking_pids(second_pid)`. While session 2 is waiting, run `SELECT post('row','B','R1',9)` in a third autocommit session. Check B’s event, A’s empty feed, and A’s committed head of 0. Commit session 1, wait for session 2 to finish, then read A’s feed with `mode='row'` and `rev>0`.
+3. For both modes compare the incremental result with `SELECT mode,count(*),sum(bags) FROM receipts WHERE m='A' GROUP BY mode` and a full event enumeration. Run this only on an isolated fixture. The worker grants exercise transaction behavior. Merchant authentication and RLS are covered by the separate isolation trial.
+
+</details>
