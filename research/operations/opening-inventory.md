@@ -41,3 +41,99 @@ If a batch fails before activation, withdraw its staged rows and preview the cor
 After launch, schedule small rolling counts for fast sellers, discrepancy-prone items and locations that recently received transfers. Let observed variance determine the frequency. Use the same count, recount and approval trail. Track overdue counts, unexplained units by location and repeat discrepancies by cause. [How to reconcile a count while the shop is trading](cycle-counting.md) · [Microsoft cycle counting](https://learn.microsoft.com/en-us/dynamics365/business-central/inventory-how-count-adjust-reclassify)
 
 **Operator acceptance.** A second-shift employee should be able to resume an interrupted count, distinguish zero from uncounted, explain why the example offers three shirts, locate the pending pickup and held shirt, and identify who resolved an ambiguous SKU. Replay the opening batch, sell one unit during a rolling count, and correct one pack factor after a sale. Pass when the opening balance posts once and every current balance can be reconstructed from the count and subsequent movements.
+
+## Pilot trial — two offline registers cross the opening count
+
+A clerk counts **10 bags** at one store. Two registers upload completed carry-outs later. Both use receipt numbers 0700 and 0701. In this fixture, the register plus its numbering epoch identifies a source namespace within the merchant and POS installation. A real connector should use the source’s stable transaction and line IDs where available and preserve the selling site at the time of handover.
+
+| Register and receipt | Bags | Evidence about the physical count | Posting against the 10 opening bags |
+| --- | ---: | --- | --- |
+| East 0700 | 2 | Customer already carried them out when staff counted. | Record the sale. Its stock effect is already reflected in the count. |
+| West 0700 | 3 | Staff confirmed handover after the count. | Deduct 3. |
+| East 0701 | 1 | Staff confirmed handover after the count. | Deduct 1. |
+| West 0701 | 2 | The register and the count sheet cannot establish which happened first. | Preserve the sale, open a review and suspend promises for this item/site. Show 6 as provisional. |
+
+**Observed on 26 November 2026.** Python 3.12.3 with native SQLite 3.45.1 replayed the four records in both table order and reverse order, including full-batch retries. Deduplicating on the bare receipt number and subtracting the first occurrence produced **7** bags in table order and **5** in reverse order. Scoping the IDs correctly but subtracting every late upload produced **2** in both orders. Recording cutoff evidence per handover retained all four sales, posted only the two established post-count handovers and produced **6 provisional bags and one review** in either order.
+
+The trial exercised both possible review outcomes on fresh fixtures. If the two-bag handover had already affected the physical count, the balance closed at **6**. If it happened afterward, the balance closed at **4**. Replaying the review and all sales repeated no deduction. These two answers use different supplied evidence. Neither register timestamps nor upload order establish which answer describes a real store. For the pilot, ask for the zone count, movement log and register-close evidence, or recount with intervening movements accounted for. Record the decision, reviewer and evidence reference before reopening promises.
+
+<details>
+<summary>Reproduce the four synthetic runs using Python’s standard library</summary>
+
+Save as `trial.py` and run `python3 trial.py`. The in-memory database represents one store and SKU with one stock-bearing line per sale. The unresolved count is the signal to withhold promises. Register software, application permissions and a live promise endpoint are outside this fixture.
+
+```python
+import sqlite3
+
+# One merchant, one source installation, one site and one countable SKU.
+# Register keys include their numbering epoch. Each receipt has one line.
+rows = [
+    ("E-1", "0700", 2, "included"),
+    ("W-1", "0700", 3, "after"),
+    ("E-1", "0701", 1, "after"),
+    ("W-1", "0701", 2, "unknown"),
+]
+
+def trial(batch, ruling):
+    db = sqlite3.connect(":memory:")
+    db.executescript("""
+      CREATE TABLE sale(reg TEXT, ref TEXT, qty INTEGER, evidence TEXT,
+                        PRIMARY KEY(reg,ref));
+      CREATE TABLE review(reg TEXT, ref TEXT, ruling TEXT, evidence_ref TEXT,
+                          PRIMARY KEY(reg,ref));
+      CREATE TABLE posting(reg TEXT, ref TEXT, qty INTEGER, PRIMARY KEY(reg,ref));
+      CREATE TABLE bare(ref TEXT PRIMARY KEY, qty INTEGER);
+    """)
+    def import_row(row):
+        reg, ref, qty, evidence = row
+        with db:
+            db.execute("INSERT OR IGNORE INTO bare VALUES (?,?)", (ref,qty))
+            old = db.execute("SELECT qty,evidence FROM sale WHERE reg=? AND ref=?",
+                             (reg,ref)).fetchone()
+            if old is not None:
+                if old != (qty,evidence):
+                    raise ValueError("changed source record")
+                return
+            db.execute("INSERT INTO sale VALUES (?,?,?,?)", row)
+            if evidence == "after":
+                db.execute("INSERT INTO posting VALUES (?,?,?)", (reg,ref,qty))
+
+    def state():
+        balance = db.execute("SELECT 10-COALESCE(sum(qty),0) FROM posting").fetchone()[0]
+        unresolved = db.execute("""SELECT count(*) FROM sale LEFT JOIN review USING(reg,ref)
+                                   WHERE sale.evidence='unknown' AND review.ruling IS NULL""").fetchone()[0]
+        return balance, unresolved
+
+    for row in batch + batch:
+        import_row(row)
+    assert db.execute("SELECT count(*) FROM sale").fetchone()[0] == 4
+    assert state() == (6,1)
+    bare = db.execute("SELECT 10-sum(qty) FROM bare").fetchone()[0]
+    all_late = db.execute("SELECT 10-sum(qty) FROM sale").fetchone()[0]
+    reg, ref, qty, _ = rows[3]
+    def resolve():
+        with db:
+            old = db.execute("SELECT ruling FROM review WHERE reg=? AND ref=?", (reg,ref)).fetchone()
+            if old:
+                assert old == (ruling,)
+                return
+            db.execute("INSERT INTO review VALUES (?,?,?,?)", (reg,ref,ruling,"CHECK-21"))
+            if ruling == "after":
+                db.execute("INSERT INTO posting VALUES (?,?,?)", (reg,ref,qty))
+    resolve()
+    resolve()
+    for row in batch:
+        import_row(row)
+    final, unresolved = state()
+    assert final == (6 if ruling == "included" else 4) and unresolved == 0
+    db.close()
+    return bare, all_late, final
+
+for batch, expected_bare in [(rows,7), (rows[::-1],5)]:
+    for ruling in ("included","after"):
+        bare, all_late, final = trial(batch,ruling)
+        assert (bare,all_late) == (expected_bare,2)
+        print(f"bare={bare} all_late={all_late} provisional=6 review={ruling} final={final}")
+```
+
+</details>

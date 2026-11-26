@@ -12,6 +12,7 @@ These notes combine published sources, proposed design choices, and questions fo
 | [PostgreSQL merchant isolation](architecture/tenant-isolation-trial.md) | Twelve assertions passed for merchant-scoped reads and writes, a composite foreign key, reuse after rollback and privileged-role behavior. | Two synthetic merchants in a disposable native PostgreSQL 16.15 cluster |
 | [Offline observation capture](architecture/offline-capture-trial.md) | An aborted observation and command rolled back together. A repeated command retained its original quantity after a browser restart. | Local Chromium storage; separate merchant keys on one origin still require application authorization |
 | [Floor-plan marker and list](experience/warehouse-map.md#browser-feasibility-check) | The marker remained aligned with its shelf at two screen sizes. Keyboard selection worked through the HTML list with the diagram removed. | A synthetic SVG fixture in headless Chromium |
+| [Scanner input after focus changes](experience/scan-focus-trial.md) | Typing a scan into a quantity field and sending Enter posted 1,421 in the baseline form. A separate confirmation avoided that posting, but an Enter suffix could still activate an already focused confirmation button. | Simulated keystrokes in Chromium. Device profiles and hardware remain untested. |
 | [HTTP contract comparison](architecture/server-tooling.md#observed-http-contract-on-two-frameworks) | Across 32 requests, the default validators differed on numeric input. With strict settings both frameworks agreed on all eight receipt cases. | Loopback HTTP and exact decimal-string validation, without database or latency measurements |
 | [Order and webhook recovery](integrations/merchant-api.md#local-trial-of-the-order-and-its-webhook) | After four process interruptions and full replay, three orders produced three applied events. A missing event for one merchant did not delay another. | Local SQLite producer and consumer, without external event delivery |
 | [Paging a changing inventory](integrations/inventory-catch-up.md#observed-on-native-sqlite) | A live offset scan duplicated one record, and even a stable key missed an earlier insertion. Reading a fixed snapshot and replaying changes reproduced the ledger at both checkpoints. | Three native SQLite connections and a synthetic inventory feed |
@@ -19,6 +20,7 @@ These notes combine published sources, proposed design choices, and questions fo
 | [Enterprise export replay](architecture/tenant-export-example.md#replay-evidence-and-limits) | Five file hashes matched. Reimporting kept the two outstanding bags in transit, and a foreign merchant's attachment was rejected. | Synthetic in-memory import and a held delivery record |
 | [GS1 scan capture](standards/barcode-capture-trial.md) | Removing one separator produced a valid but different lot and no expiry. An item requiring expiry needs a separate field check. | Eight synthetic scanner outputs through the official syntax engine, without physical image decoding |
 | [Pilot stock walkthrough](operations/pilot-balance-replay.md) | Ten units reconciled across six distinct commands, including a sale and a partially received transfer. | A Python arithmetic model |
+| [Offline registers crossing the opening count](operations/opening-inventory.md) | Reversing upload order changed a naïve result from seven bags to five. Scoped sale identities and physical cutoff evidence consistently produced six provisional bags and one decision for staff. | Four synthetic sales from two registers in SQLite |
 
 ## Merchant discovery and local context
 
@@ -58,6 +60,7 @@ These notes combine published sources, proposed design choices, and questions fo
 | [Warehouse maps](experience/warehouse-map.md) | How do we connect a physical bin to a searchable, accessible floor plan and decide whether SVG, Canvas or Leaflet fits? |
 | [Merchant accounts and staff access](experience/merchant-account.md) | How does an owner invite workers, switch businesses, transfer ownership or exit with pending stock work? |
 | [Floor workflows and accessibility](experience/floor-workflows.md) | Can a worker scan, correct a mistake and hand over a partly finished task on the site's equipment? |
+| [Scanner focus during receiving](experience/scan-focus-trial.md) | What does a scanner's Enter suffix do when a worker has moved from scanning to the quantity field? |
 | [Exception queues for managers](experience/manager-exceptions.md) | Which interruptions need a person now, and how does that responsibility pass to the next shift? |
 | [Labels and printing](experience/labels-and-printing.md) | When does a supplier label suffice, and how do staff recover from a swapped or duplicate label? |
 

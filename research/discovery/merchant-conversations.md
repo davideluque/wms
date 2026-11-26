@@ -23,6 +23,21 @@ Guía para quien hace la entrevista. Las preguntas sirven para una empresa de hi
 
 ## Decidir qué observar después
 
+### Si el inventario cambió después de sincronizar una caja
+
+Pide reconstruir una sola venta en la que el cliente se llevó la mercancía mientras la caja estaba sin conexión. Dibuja tres marcas en una línea de tiempo: cuándo salió el producto, cuándo lo contaron en esa tienda y cuándo apareció la venta en el sistema central. Anota quién conoce cada dato y qué registro lo respalda. Si no pueden establecer el orden, déjalo como «por verificar».
+
+| Dato para la visita | Qué anotar en el ejemplo |
+| --- | --- |
+| Tienda, caja y comprobante | Alias de la tienda, identificador de la caja en ese momento, número del comprobante y línea. Comprueba si otra caja usa la misma numeración. |
+| Artículo y entrega | Presentación, unidad, cantidad entregada y evidencia de que el cliente se la llevó. Un pedido pagado puede seguir en el mostrador. |
+| Conteo físico | Ubicación, cantidad observada y movimientos que el equipo presenció mientras contaba. |
+| Sincronización y decisión | Qué identificadores llegaron al sistema central, si el conteo ya incluía esa salida y quién puede resolver una duda sin descontar dos veces. |
+
+Termina con la pregunta «Si mañana vuelves a importar ese comprobante, ¿qué cantidad debería ver la siguiente persona y por qué?». [Ensayo de conteo inicial con dos cajas](../operations/opening-inventory.md) · [Qué conserva la sincronización de AROA](../integrations/aroa-pos.md#can-a-synchronized-sale-identify-the-store)
+
+### Cierre de la conversación
+
 Pide permiso para anotar los pasos y conservar un ejemplo sin datos personales. Anota las palabras que usa el equipo para unidad, existencia, apartado, faltante y entrega. Para cada cifra, identifica su unidad y el lugar al que corresponde. Pregunta cuánto tiempo tomó la última corrección, con qué frecuencia ocurre y a quién afecta. En la siguiente visita, contrasta ese recuerdo con registros o mediciones. [Cómo observar una entrega y reconstruir lo ocurrido](first-warehouse.md#follow-one-shipment)
 
 Al terminar, lee en voz alta una reconstrucción corta. “Entendí que llegaron nueve cajas, separaron una dañada y avisaron al comprador por teléfono. ¿Qué me faltó?” Guarda las correcciones junto a la observación. Registra por separado cualquier idea de producto que surja durante la conversación. La guía se preparó para futuras entrevistas. [Casos para contrastar](three-merchant-scenarios.md) · [Método de observación en contexto](https://www.gov.uk/service-manual/user-research/contextual-research-and-observation)

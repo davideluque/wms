@@ -4,6 +4,8 @@ These questions are open for the product owner. Research can proceed under the w
 
 **Direction already set.** The first customers are small and medium businesses. The product should support a hosted service and allow an enterprise to run its own installation with its own domain, infrastructure and control over data flow. The open choices concern implementation, proof and rollout. The ice, farm and clothing businesses are discovery candidates. Participation and product fit have yet to be established.
 
+For the first channel decision, a concrete question is whether a completed sale identifies the **physical handover site** after synchronization. In the reviewed AROA revision the originating register survives on the local transaction and is omitted from its server transaction payload. A single-site pilot and a multi-store pilot therefore need different evidence before that feed can drive inventory. [AROA register-attribution review](research/integrations/aroa-pos.md#can-a-synchronized-sale-identify-the-store)
+
 | Choice to revisit | Working assumption | Evidence that would change it |
 | --- | --- | --- |
 | Which merchant and sales channel go first? | Design for one Venezuelan retailer that owns its stock. Support manual sales and one connected checkout. Evaluate Shopify and AROA POS. | A willing pilot merchant shows its actual sales mix, exports, stock adjustments and a recurring problem. Prioritize the channel that reproduces that problem. |

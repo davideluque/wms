@@ -26,6 +26,8 @@ The receiver opens the case, matches a bag to the known **Arroz 1 kg** variant a
 
 ## A second scan and a second attempt to save
 
+In a browser simulation, a scan directed at the quantity field changed 1 to 1,421, and its Enter suffix submitted the baseline form. A task-scoped scan field plus a separate confirmation kept the changed value in draft for review. [Keyboard-wedge focus trial](scan-focus-trial.md)
+
 For weighed goods, show the confirmed quantity and unit before saving a manual reading. The [Venezuelan entry and display examples](venezuelan-entry-and-display.md) show why the same punctuation can mean different quantities on a scale and in a supplier export.
 
 Two identical product labels can represent two physical units. Give every deliberate unit scan a new local operation ID. A repeated transmission after a timeout reuses the original ID, and the service returns the previously recorded result. For a serialized item or uniquely labeled bag, validate its identifier within the task and explain an earlier acceptance. A scanner in continuous-read mode may decode a label more than once while it remains under the beam. Record the device mode and test single-trigger operation or its repeat timeout before using scan-to-increment. Zebra documents a same-symbol timeout specifically for continuous-read mode. [Zebra DataWedge barcode input](https://techdocs.zebra.com/datawedge/latest/guide/input/barcode/)

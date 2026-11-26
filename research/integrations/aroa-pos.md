@@ -21,6 +21,18 @@ The transaction item records a menu item ID, quantity, sale-time name and price,
 
 ## Pilot proof
 
+### Can a synchronized sale identify the store?
+
+At AROA commit `66fa22f`, the local paid transaction carries the closing register's device ID. The server transaction mapper sends the tenant ID, transaction ID, items, `happened_at` and `updated_at`, while omitting the originating device. Its reverse mapper accepts a caller-supplied fallback device ID. That fallback cannot establish where a customer received goods. A held check can also be closed on a different device from the one that created it. [Transaction sync mapping](https://github.com/davideluque/aroa-pos/blob/66fa22f586e00a1cc86d2c7b0f102a5705ed5ee5/src/sync/mappers.ts) · [Closing-register choice](https://github.com/davideluque/aroa-pos/blob/66fa22f586e00a1cc86d2c7b0f102a5705ed5ee5/src/features/orders/data.ts)
+
+For one tenant with two stores, post a test sale at each, then compare what survives in an authorized register export and the proposed central feed. Keep the WMS sale pending if the feed cannot establish the handing-over site. A single verified site can use an installation-to-site mapping. For multiple sites, require a trustworthy source field or event-time register assignment supplied by the export. Preserve how the site was established. The current tablet location, paid-check creation device and staff member alone are weak evidence when equipment or people move.
+
+Check the cutoff independently. AROA's server schema distinguishes a client transaction time from the time the server records an update. Closing a held check can also advance its timestamp to preserve ordering across a register closure. Match the physical handover to the count evidence before changing a bin balance. [AROA transaction schema](https://github.com/davideluque/aroa-pos/blob/66fa22f586e00a1cc86d2c7b0f102a5705ed5ee5/supabase/migrations/0001_phase4_init.sql) · [Opening inventory and late sales](../operations/opening-inventory.md)
+
+### Transactions to replay
+
+Include an older sale if the merchant's register predates AROA's v6 local migration. That migration minted a device ID and assigned it to historical rows lacking one. This preserved register continuity for the POS. The new ID alone cannot reconstruct the physical store for an older sale. Use the merchant's dated records or retain the uncertainty in the WMS. [AROA v6 migration](https://github.com/davideluque/aroa-pos/blob/66fa22f586e00a1cc86d2c7b0f102a5705ed5ee5/src/db/database.ts)
+
 Run a direct sale, a held check amended then paid, and a cancelled open check. Sell two identical packs on separate lines. Take one transaction offline, close the shift, reassign the device to another store and reconnect. The WMS should post the originally confirmed site and quantity exactly once, preserve both source-line references, and show the age of the delayed sale. A stock promise made elsewhere while the device was offline may need review.
 
-Void a previously handed-over sale with the goods still at the customer. Then process a separate physical return held for inspection. Staff should be able to explain the difference using the receipt and original movement. Validate against the deployed AROA version and merchant register practices. This note is a source review of revision `9299ef0`. No merchant installation, export or integration test was run.
+Void a previously handed-over sale with the goods still at the customer. Then process a separate physical return held for inspection. Staff should be able to explain the difference using the receipt and original movement. Validate against the deployed AROA version and merchant register practices. The initial checkout review used revision `9299ef0`, and the register-attribution check used `66fa22f`. Merchant installation, export and end-to-end integration tests remain outstanding.
