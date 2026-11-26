@@ -4,7 +4,7 @@ A picker needs to know whether “2” means two shirts, two six-bag bundles or 
 
 ## Minimum data dictionary
 
-These are proposed WMS constraints. A merchant is the owner of a catalog. A source namespace identifies one supplier catalog, POS installation, online shop or internal label series belonging to that merchant.
+These are proposed WMS constraints. A merchant is the owner of a catalog. A source namespace identifies one supplier catalog, POS installation, online shop or internal label series belonging to that merchant. For an external barcode, identify the object and packaging level before assigning a catalog mapping. [What a GS1 scan identifies](../standards/identification-and-exchange.md#what-a-scan-identifies)
 
 | Record | Minimum fields | Identity and constraints |
 | --- | --- | --- |

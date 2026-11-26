@@ -25,6 +25,8 @@ If revision 19 arrives before 18, fetch current state before applying a change t
 
 ## Contract checks before promising an integration
 
+Run these checks with the identifiers the merchant can actually supply. A Shopify order can include location-specific fulfillment work, while a register may send a completed counter sale only after reconnecting. [Shopify order and fulfillment ownership](shopify.md#ownership-from-checkout-through-handover) · [AROA register transaction mapping](aroa-pos.md#proposed-first-connection)
+
 | Exercise | Expected observation |
 | --- | --- |
 | Two simultaneous submissions of a mapped order with the same scoped key | One order, one reservation when stock fits, and the same recorded outcome |

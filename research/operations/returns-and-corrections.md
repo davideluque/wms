@@ -16,6 +16,8 @@ At receipt, link the source order and line, original handover, received variant 
 
 ## A shortage reported after the truck has left
 
+Use the parcel’s guide to retrieve the carrier acceptance record and delivery evidence. Each answers a different question about custody. [Evidence for carrier acceptance and recipient delivery](../integrations/venezuela-carriers.md#booking-physical-handoff-and-proof)
+
 Suppose the warehouse posted a dispatch of six shirts and the customer reports receiving five. Preserve the original dispatch and record a one-unit discrepancy against the line and shipment. Ask the warehouse to check the staging area and pick record. Ask the carrier for its collection or delivery evidence, including what its signature actually covers. A signature for one sealed parcel establishes receipt of a parcel. It leaves the number of shirts inside unresolved.
 
 - **One shirt found in staging.** After checking its identity, post a linked correction reducing the original dispatch by one. The WMS now shows five dispatched and one physically at source. Keep that shirt committed if the merchant agrees to ship it later. Record any later handover under a new dispatch reference.

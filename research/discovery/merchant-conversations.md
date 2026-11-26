@@ -23,6 +23,6 @@ Guía para quien hace la entrevista. Las preguntas sirven para una empresa de hi
 
 ## Decidir qué observar después
 
-Pide permiso para anotar los pasos y conservar un ejemplo sin datos personales. Anota las palabras que usa el equipo para unidad, existencia, apartado, faltante y entrega. Para cada cifra, identifica su unidad y el lugar al que corresponde. Pregunta cuánto tiempo tomó la última corrección, con qué frecuencia ocurre y a quién afecta. En la siguiente visita, contrasta ese recuerdo con registros o mediciones.
+Pide permiso para anotar los pasos y conservar un ejemplo sin datos personales. Anota las palabras que usa el equipo para unidad, existencia, apartado, faltante y entrega. Para cada cifra, identifica su unidad y el lugar al que corresponde. Pregunta cuánto tiempo tomó la última corrección, con qué frecuencia ocurre y a quién afecta. En la siguiente visita, contrasta ese recuerdo con registros o mediciones. [Cómo observar una entrega y reconstruir lo ocurrido](first-warehouse.md#follow-one-shipment)
 
 Al terminar, lee en voz alta una reconstrucción corta. “Entendí que llegaron nueve cajas, separaron una dañada y avisaron al comprador por teléfono. ¿Qué me faltó?” Guarda las correcciones junto a la observación. Registra por separado cualquier idea de producto que surja durante la conversación. La guía se preparó para futuras entrevistas. [Casos para contrastar](three-merchant-scenarios.md) · [Método de observación en contexto](https://www.gov.uk/service-manual/user-research/contextual-research-and-observation)

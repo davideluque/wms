@@ -27,13 +27,13 @@ Suppose an order calls for **10 cases of 12 units**. Nine cases arrive, includin
 | What can be allocated under this site's policy? | 96 units |
 | What is present but held? | 12 units, with the inspection outcome pending |
 
-If inspection later releases the held case, eligible stock rises to 108 and the original receipt still records 108. If the receiver entered nine twice by mistake, record a correction linked to the mistaken entry. A device retry of the original submission should produce a single receipt. An intentional scan of a second identical case should count both. The barcode alone cannot distinguish those actions.
+If inspection later releases the held case, eligible stock rises to 108 and the original receipt still records 108. If the receiver entered nine twice by mistake, record a correction linked to the mistaken entry. A device retry of the original submission should produce a single receipt. An intentional scan of a second identical case should count both. Use the package mapping to interpret the label, then run both actions on the floor. [Catalog identities and unit conversions](catalog-and-units.md) · [Repeated scans and save retries on the handheld](../experience/floor-workflows.md#a-second-scan-and-a-second-attempt-to-save)
 
 ## Find the boundary with the ERP
 
 Ask who owns the purchase order, item and pack definitions, physical receipt, supplier claim, invoice and financial posting. In one documented arrangement, the WMS sends a shipment receipt to the ERP, which can use it for invoicing. The systems reconcile stock at an agreed instant and level of detail. Microsoft's example also illustrates the risk of counting one receipt again via a second inventory feed. [Dynamics warehouse management with an external ERP](https://learn.microsoft.com/en-us/dynamics365/supply-chain/warehousing/wms-only-mode-external-erp)
 
-For the pilot, replay the example across that boundary. Match order and line references, item and unit, accepted and held quantities, the time of the physical observation and the time of acknowledgement. Interrupt the exchange after the ERP accepts the receipt and before the WMS sees the reply. A buyer should be able to determine whether the receipt posted and retry safely.
+For the pilot, replay the example across that boundary. Match order and line references, item and unit, accepted and held quantities, the time of the physical observation and the time of acknowledgement. Interrupt the exchange after the ERP accepts the receipt and before the WMS sees the reply. A buyer should be able to determine whether the receipt posted and retry safely. [Who owns stock and acknowledgment at a module boundary](../architecture/replaceable-modules.md) · [Warehouse and accounting handoffs in Venezuela](../venezuela/local-discovery.md#dispatch-and-accounting)
 
 ## Questions that change the model
 

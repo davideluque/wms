@@ -32,7 +32,7 @@ For the pilot, pair a persistent text result with optional sound or vibration. A
 
 ## Run the floor test
 
-Use a test order and marked sample stock. Recruit at least one person from receiving, picking and the pickup counter, plus the supervisor who resolves exceptions. Observe the existing process first. Use the site’s handheld, shared workstation and real packaging under normal lighting and noise. Include a keyboard-only run and a run with the supported screen reader. Record task time, incorrect taps, requests for help, physical counts, WMS balances and the final posting reference.
+Use a test order and marked sample stock. Recruit at least one person from receiving, picking and the pickup counter, plus the supervisor who resolves exceptions. Observe the existing process first. Use the site’s handheld, shared workstation and real packaging under normal lighting and noise. Include a keyboard-only run and a run with the supported screen reader. Record task time, incorrect taps, requests for help, physical counts, WMS balances and the final posting reference. If capture or recovery varies by client, repeat the same task on the candidate devices. [Browser and native floor-device trial](../architecture/web-to-mobile.md#floor-device-trial)
 
 | Trial | Proposed pilot acceptance check |
 | --- | --- |

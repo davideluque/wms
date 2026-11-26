@@ -18,7 +18,7 @@ If the resulting position is below the minimum, propose enough to reach the targ
 
 ## Notifications a manager can act on
 
-Keep one active shortage per store, SKU and rule while the condition persists. Show available now, incoming with its ETA, minimum, target and source capacity. An acknowledgement records who saw the issue. A snooze has an owner and expiry. Close or revise the suggestion when stock changes, and link an approved suggestion to the transfer so the next shift can follow the goods. If confirmed incoming is overdue, flag the late transfer and recompute using the planning horizon.
+Keep one active shortage per store, SKU and rule while the condition persists. Show available now, incoming with its ETA, minimum, target and source capacity. An acknowledgement records who saw the issue. A snooze has an owner and expiry. Close or revise the suggestion when stock changes, and link an approved suggestion to the transfer so the next shift can follow the goods. If confirmed incoming is overdue, flag the late transfer and recompute using the planning horizon. [Ownership, escalation and handoff in the daily exception queue](../experience/manager-exceptions.md#one-case-from-report-to-handoff)
 
 During the pilot, replay real sales and transfer history chronologically using only facts known at each step. Compare suggestions with managers' actual decisions. Record stockout time during selling hours, transfers per week, declined suggestions and units still in transit after the expected arrival. Ask the manager which direction each metric should move and what extra transfer workload the store can absorb.
 
