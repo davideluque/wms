@@ -15,6 +15,13 @@ These notes combine published sources, proposed design choices, and questions fo
 | [Local discovery in Venezuela](venezuela/local-discovery.md) | Which documents, business systems and operating conditions matter at the first site? |
 | [Store replenishment](operations/store-replenishment.md) | How much should a store request when stock is scarce or a transfer is already on its way? |
 | [Merchant APIs and webhooks](integrations/merchant-api.md) | How can a checkout submit a sale once, recover from a lost response and reconcile missed events? |
+| [Shopify integration](integrations/shopify.md) | How do checkout, pickup and fulfillment affect stock in both systems? |
+| [AROA POS integration](integrations/aroa-pos.md) | How can a completed sale and its paid check produce a single movement at the correct store? |
+| [Floor workflows and accessibility](experience/floor-workflows.md) | Can a worker scan, correct a mistake and hand over a partly finished task on the site's equipment? |
+| [Web and mobile options for 2027](architecture/web-to-mobile.md) | Which parts of the floor application can travel from browser to native, and what would justify that investment? |
+| [Ice, farm and clothing businesses](discovery/three-merchant-scenarios.md) | Which stock operations travel across businesses, and which require measured weights, lot tracking or exact variants? |
+| [Opening inventory and cutover](operations/opening-inventory.md) | How does a merchant begin with trustworthy balances while sales continue? |
+| [Venezuelan parcel carriers](integrations/venezuela-carriers.md) | What evidence distinguishes a printed guide, a booked pickup, carrier acceptance and delivery? |
 
 The [decisions for the retail pilot](../DECISIONS.md) record working assumptions and the evidence that could change them.
 

@@ -1,0 +1,43 @@
+# Venezuelan parcel carriers for a retail WMS
+
+Start with the carrier already collecting the pilot retailer’s parcels. If the retailer has no incumbent and the origin is served, **ZOOM is the first partner to investigate**. It documents manual guide creation, template import and API guide creation, so the same dispatch desk could test each step before automating the next. **TEALCA** is a strong candidate where its routes fit and the retailer can obtain merchant access to its documented services. **MRW Venezuela** supports an agency-based pilot with guide-number tracking. No retailer account, rate agreement, label, pickup or delivery was tested for this review. [ZOOM e-commerce workflows](https://zoom.red/vender-por-ecommerce/) · [TEALCA API documentation](https://connect.tealca.com/api/docs) · [MRW Venezuela FAQ](https://mrwve.com/preguntas-frecuentes)
+
+## What each carrier publishes
+
+| Carrier | Origin and destination options | Booking and tracking evidence | Confirm with the pilot account |
+| --- | --- | --- | --- |
+| ZOOM | Express service advertises origin collection in served zones. Mi ZOOM lists pickup requests subject to conditions. Guides can specify home delivery or collection at a ZOOM office. | The customer portal supports manual guides and tracking. ZOOM also describes bulk imports and an API for guide creation, tracking and price calculation. | Obtain the zone list for the dispatching site, current template, merchant documentation, label sample, pickup reference and terms. Ask whether pickup scheduling can be automated separately from guide creation. [National business services](https://zoom.red/envios-nacionales-empresas/) · [Merchant portal and import options](https://zoom.red/vender-por-ecommerce/) · [API capabilities](https://zoom.red/quiero-hacer-envios/) |
+| TEALCA | An origin branch accepts parcels. TEALCA describes scheduled collection for corporate cargo. At destination, recipients can use a branch or receive urban home delivery within coverage. | The national service includes web tracking. Public API documentation describes OAuth and operations for shipments, labels, manifests and proof of delivery. | Verify which operations the merchant may use for domestic shipments, the identifier used to look up an uncertain booking, the evidence available for delivery and the branch’s pickup cutoff. [Collection and delivery coverage](https://www.tealca.com/envios-puerta-a-puerta-venezuela-cobertura-entrega-directa/) · [Domestic services](https://www.tealca.com/servicios-nacionales/) · [TEALCA API](https://connect.tealca.com/api/docs) |
+| MRW Venezuela | The terms describe parcels tendered to an agency. Corporate services offer home delivery or destination-agency pickup. MRW specifically advertises collection for freight agents. Confirm whether the retailer qualifies for collection at its own origin. | MRW identifies shipments by the tracking number printed on the guide. Its FAQ asks for the destination agency code and name or a home address with a landmark. The reviewed sources establish web tracking and corporate support. Merchant API access remains unverified. | Request the agency list, a current guide, merchant booking options and evidence available after acceptance and handover. Test the retailer’s intended branch or urban route. [Transport terms](https://mrwve.com/aviso-legal) · [Corporate services](https://mrwve.com/corporativos) · [Booking and tracking FAQ](https://mrwve.com/preguntas-frecuentes) |
+
+ZOOM describes *cobro en destino* for its e-commerce service as collection of the freight charge. Give finance separate fields for freight payer, freight charge and merchandise payment. A delivery status alone cannot settle a sale. [ZOOM e-commerce service description](https://zoom.red/vender-por-ecommerce/)
+
+## Booking, physical handoff and proof
+
+The proposed WMS keeps the retailer order, each sealed parcel, the carrier guide and any pickup or manifest reference linked. An order can fill several parcels, and one collection can take parcels from several orders. Capture origin site, destination mode and branch or address, carrier, piece count, weight and service. Retain both the carrier’s original status and the time employees observed it.
+
+| Show the dispatcher | Evidence for the transition |
+| --- | --- |
+| **Guía creada** | A guide number acknowledged by the carrier and matched to the parcel. Save the original printable label so a reprint reuses the guide. |
+| **Recolecta solicitada** | A collection request reference or documented arrangement. Keep the parcel in the staging location until custody changes. Record missed collections for rescheduling. |
+| **Recibido por la transportista** | A carrier acceptance scan, agency receipt or acknowledged manifest listing the parcel. Record the pieces actually taken, time and evidence reference. A parcel missing from a batch remains staged. |
+| **Disponible para retiro en agencia** | The carrier reports arrival and availability at its destination agency. The retailer can tell the customer where to go. Collection by the customer is a later event. |
+| **Entregado** | Record the carrier’s delivered event and any available recipient handover evidence as separate facts. If a dispute requires a signature, code or other proof, request the artifact available under the contract. For pickup at the retailer’s own store, record the store clerk’s handover directly. |
+| **Incidencia / devolución** | Keep failed delivery, attempted delivery, and return in transit visible. Receive the parcel back against its original guide and inspect its contents before releasing returned units to sellable stock. |
+
+### When a booking times out
+
+1. Before submission, persist the parcel ID, merchant booking reference, carrier account and request time. Reserve one active booking attempt for that parcel. A lost response changes its status to **Verificando guía**.
+2. Reconcile against the carrier’s supported lookup or portal history. Match merchant reference where available, origin, destination and parcel details. A tracking form that requires an unknown guide number cannot resolve this case. Assign it to the dispatch lead for carrier support.
+3. If the carrier locates an accepted booking, attach its original guide, label and charge to the parcel. If it confirms the request was rejected or never created, record that evidence before retrying. Automatic replay is suitable only when the carrier documents duplicate protection for the same key. If the outcome remains unknown, keep the parcel staged.
+4. If two guides surface, identify the label physically on the parcel, record both references, and use the carrier’s cancellation process for the unused guide. Reconcile the charge. Apply the same check to an uncertain **pickup request** before requesting a second driver.
+
+### A manual pilot can ship on day one
+
+Use the retailer’s approved portal or local agency to issue a guide. The dispatcher records the guide number and scans the physical parcel label against the order. Print or save the carrier document, arrange pickup or agency tender, and attach the acceptance receipt. Update tracking from the carrier’s published channel and record the timestamp and source. At shift close compare staged parcels, acknowledged manifest pieces, accepted guides and exceptions. When connectivity returns, import or attach existing guide references so a queued shipment cannot create a second booking.
+
+## Evidence to choose the first partner
+
+Ask the retailer for a recent anonymized dispatch batch, origin address, top delivery areas, branch versus home-delivery mix, parcel weights, daily cutoff, freight invoices and one failed delivery. Ask each candidate for route-level availability, collection minimums, current quote and surcharges, the support escalation path and samples of a label, pickup acknowledgment, delivered event and dispute proof. If evaluating automation, obtain merchant-scoped documentation or a test account, status definitions and actual rules for lookup, retries and cancellation.
+
+Compare candidates on the share of that retailer’s recent parcels they can serve, total quoted cost for the same sample, cutoff fit and time the dispatcher spends per parcel. For a pilot, ask the chosen carrier to demonstrate one branch shipment and one home delivery on served routes, plus an acknowledged collection with a missing piece and an uncertain booking recovery in a test or tabletop setting. Advance automation after the team can reconcile each parcel, guide and charge and identify who resolves each exception. Published service descriptions and API documentation alone do not establish the retailer’s entitlement, event delivery method or service levels.
