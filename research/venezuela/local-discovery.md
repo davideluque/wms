@@ -1,0 +1,32 @@
+# Venezuela warehouse discovery
+
+Desk research, 26 November 2026. Before choosing a pilot workflow, follow one shipment from the warehouse floor to the customer and back into the operator’s accounting system. A recent sale, an inter-warehouse transfer and a customer return will reveal which steps can share a screen and which need different documents or approvals.
+
+## Dispatch and accounting
+
+SENIAT’s 2011 provision addresses invoices and dispatch documents separately. Articles 20–21 describe the use of an *orden de entrega* or *guía de despacho* for movements of goods without a sale, including transfers between warehouses. They also address limited circumstances in which a guide accompanies a sale. In October 2026 SENIAT published new provisions covering these documents, with effect 180 days after publication. Ask the operator’s accountant which rules, document issuer and contingency procedure apply on the intended pilot date. The links are copies of the published gazettes. [Gaceta Oficial 39.795, arts. 20–21](https://tienda.caraconsultores.com/wp-content/uploads/2024/09/Prov-00071-Facturacion-GO-39795.pdf) · [Gaceta Oficial 43.484, arts. 6–7, 14–16 and final provision eight](https://a2.com.ve/wp-content/uploads/SNAT202600093_PROVIDENCIA_ADMIISTRATIVA.pdf)
+
+| Walkthrough | Ask the team to show | Decision for the pilot |
+| --- | --- | --- |
+| Customer sale | Have the picker, dispatcher and billing clerk trace an anonymized order, pick list, invoice, delivery evidence and ERP posting. Repeat with a short shipment. Who can release the truck if the order and picked quantities differ? | Record which event updates stock, which system issues the document and which external reference links a partial shipment to its order. |
+| Transfer between sites | Compare the origin’s release, the document carried by the driver and the destination’s receipt. Ask who owns goods in transit and who resolves a shortage. | Determine when available stock changes at each site and who may close a discrepancy. |
+| Customer return | Match a returned line to the original dispatch, inspection, decision to restock or hold, and any credit note. Ask whether accounting or the warehouse finishes first. | Agree who can return goods to available stock and how the ERP identifies the original transaction and handles a repeated confirmation. |
+
+Ask the ERP administrator for redacted exports from both sides of one transaction. Match order and line IDs, SKU, quantity and unit, site, movement date, fiscal document type and issuer’s reference. Ask where the recipient’s *RIF* (tax identifier), prices, currency and exchange rate originate if used. Start by asking whether the warehouse can confirm physical quantities and exceptions while the existing billing system issues and numbers fiscal documents. Test that proposal against the operator’s actual process and the accountant’s advice.
+
+## Units, labels and traceability
+
+At receiving, select one fast-moving SKU and one with troublesome packaging. Photograph the *unidad*, *caja* and any *bulto* labels with permission. Ask staff to scan each level, count the contents and point to the corresponding ERP unit and barcode. Record what *bulto* means for that supplier. A GS1 trade item identifier (GTIN) can identify a specific packaging level, so a case scan can denote a different item configuration from an individual unit. Record actual supplier codes, including missing or unreadable ones. [GS1 packaging hierarchy, section 2.1](https://ref.gs1.org/guidelines/gdm-implementation/1.4.0/)
+
+Test a split case from receipt through picking and reconciliation. For example, receive two cases of 12, pick five units and ask the counter to find the remaining 19 units. For weight-based goods, capture the actual scale reading, unit, decimal precision and label, then compare with the ERP export. Ask who updates the conversion when a supplier changes the pack size and how staff identify old stock.
+
+- **Pharmaceutical distribution.** Venezuela’s published distribution standard describes tracing a product via supplier, lot, quantity and customer. If the prospect handles medicines, ask the responsible pharmacist to demonstrate a lot recall and show the current operating procedure, expiry checks, storage limits and release authority for quarantined stock. Record which controls apply to the facility and pilot assortment. [Gaceta Oficial 37.966, arts. 24–25, Library of Congress copy](https://tile.loc.gov/storage-services/service/ll/llflg/75/64/35/27/_v/e2/00/40/62/3/75643527_ve20040623/75643527_ve20040623.pdf)
+- **Food distribution.** The ministry has described SUNAGRO’s SICA system as tracking food movements. Ask the site lead which of its products and routes currently use a movement guide. Request a redacted example and identify who requests, approves and closes it. Ask separately about lot and expiry capture, customer shelf-life thresholds and cold-chain records for the goods selected. [Ministry overview of SUNAGRO and SICA, 2020](https://www.youtube.com/watch?v=OpQPYEJd0Hk)
+
+## Power, connectivity and equipment
+
+Treat interruptions and device availability as site-level questions. Ask the shift supervisor and IT lead to walk the receiving dock, racks and dispatch door during a normal shift. Record devices per shift, shared logins, scanner type, label stock, printer location, chargers, backup power and which equipment stays online. Try the operator’s own labels and time a scan, manual lookup and reprint at the point of work.
+
+Request the most recent interruption log or reconstruct one incident with the shift lead. Capture the failed dependency (power, local Wi-Fi, internet or ERP), duration, movements that continued on paper, backlog and reconciliation time. In a tabletop exercise, let two pickers request the last case while disconnected, then replay a dispatch confirmation twice. Agree with the supervisor which work can continue, who resolves conflicting counts and how to confirm that the ERP posts one movement. Use outage frequency, recovery effort and shipment-delay tolerance to choose between a paper fallback, delayed ERP posting or offline capture.
+
+No operator interviews, facility tests or customer documents underpin these notes. Record the site, role, sample transaction and date for each answer. Sector rules and document practices require confirmation for the specific goods, business and launch date.
