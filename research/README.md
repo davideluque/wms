@@ -13,6 +13,10 @@ These notes combine published sources, proposed design choices, and questions fo
 | [Identification and exchange standards](standards/identification-and-exchange.md) | Which identifiers, labels and messages must survive the first trading-partner handoff? |
 | [Replaceable modules](architecture/replaceable-modules.md) | Which decisions can vary independently and who owns each stock change? |
 | [Local discovery in Venezuela](venezuela/local-discovery.md) | Which documents, business systems and operating conditions matter at the first site? |
+| [Store replenishment](operations/store-replenishment.md) | How much should a store request when stock is scarce or a transfer is already on its way? |
+| [Merchant APIs and webhooks](integrations/merchant-api.md) | How can a checkout submit a sale once, recover from a lost response and reconcile missed events? |
+
+The [decisions for the retail pilot](../DECISIONS.md) record working assumptions and the evidence that could change them.
 
 ## In what order?
 
