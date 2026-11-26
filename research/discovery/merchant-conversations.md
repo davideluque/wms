@@ -1,6 +1,6 @@
 # Primera conversación con un negocio
 
-Guía para quien hace la entrevista. Las preguntas sirven para una empresa de hielo, una finca o una tienda de ropa. Conviene conversar primero con quien mueve la mercancía y después con quien decide si vale la pena cambiar el sistema. Una misma persona puede cumplir ambos papeles.
+Guía para quien hace la entrevista. Las preguntas sirven para una empresa de hielo, una finca, una tienda de ropa o una cerrajería. Conviene conversar primero con quien mueve la mercancía y después con quien decide si vale la pena cambiar el sistema. Una misma persona puede cumplir ambos papeles.
 
 ## Empezar con una venta real
 
@@ -20,6 +20,7 @@ Guía para quien hace la entrevista. Las preguntas sirven para una empresa de hi
 - **Hielo.** “¿Me muestras cómo cuentan lo que sube a un camión y lo que regresa? Si se rompe una bolsa, ¿qué pasa con esa cantidad?” Averigua si venden bolsas cerradas, peso real o ambos, y en qué momento consideran entregada la mercancía.
 - **Finca.** “Elige una entrega reciente. ¿Cuándo supiste el peso o la cantidad que el cliente iba a recibir? ¿Cómo sabes de dónde salió?” Si usan cestas, pregunta si se devuelve el envase y si ese movimiento afecta la cantidad de producto.
 - **Ropa.** “¿Me muestras dos prendas iguales que cambian de talla o color? ¿Cómo encuentran la correcta si se vende en una tienda y se retira en otra?” Pide ver un cambio de talla y cómo deciden si la prenda devuelta se puede volver a vender.
+- **Cerrajería.** “¿Me muestras una venta de un candado y un trabajo reciente en el que hicieron una copia de llave? ¿Qué quedó escrito en caja y qué salió de la gaveta en cada caso? La última vez que hubo que repetir una copia, ¿cómo contaron las dos llaves en bruto? Si el cliente vuelve mañana, ¿cómo sabe la otra persona qué debe entregarle?” Pide que la persona del mostrador reconstruya el saldo de un solo artículo con su propio nombre para ese tipo de llave. Basta la referencia del trabajo.
 
 ## Decidir qué observar después
 

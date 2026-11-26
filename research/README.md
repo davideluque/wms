@@ -28,8 +28,8 @@ These notes combine published sources, proposed design choices, and questions fo
 | --- | --- |
 | [First warehouse and fieldwork](discovery/first-warehouse.md) | Who experiences the problem, who buys the product, and what evidence would justify a pilot? |
 | [Local discovery in Venezuela](venezuela/local-discovery.md) | Which documents, business systems and operating conditions matter at the first site? |
-| [Ice, farm and clothing businesses](discovery/three-merchant-scenarios.md) | Which stock operations travel across businesses, and which require measured weights, lot tracking or exact variants? |
-| [Spanish merchant interview guide](discovery/merchant-conversations.md) | How can the first ice, farm and clothing conversations start with a recent sale and a real discrepancy? |
+| [Ice, farm, clothing and locksmith businesses](discovery/three-merchant-scenarios.md) | Which stock operations travel across businesses, and where do measured weights, exact variants or materials used on a job change the workflow? |
+| [Spanish merchant interview guide](discovery/merchant-conversations.md) | How can a conversation with each merchant start with a recent sale and a real discrepancy? |
 | [Existing alternatives](discovery/existing-alternatives.md) | Would a configuration change or a small integration solve the merchant's actual problem? |
 
 ## Warehouse and store operations

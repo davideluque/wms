@@ -2,7 +2,7 @@
 
 These questions are open for the product owner. Research can proceed under the working assumptions below. A proposed default becomes a product decision when we record who agreed, when, and the supporting evidence.
 
-**Direction already set.** The first customers are small and medium businesses. The product should support a hosted service and allow an enterprise to run its own installation with its own domain, infrastructure and control over data flow. The open choices concern implementation, proof and rollout. The ice, farm and clothing businesses are discovery candidates. Participation and product fit have yet to be established.
+**Direction already set.** The first customers are small and medium businesses. The product should support a hosted service and allow an enterprise to run its own installation with its own domain, infrastructure and control over data flow. The open choices concern implementation, proof and rollout. The ice, farm, clothing and locksmith businesses are discovery candidates. Participation and product fit have yet to be established.
 
 For the first channel decision, a concrete question is whether a completed sale identifies the **physical handover site** after synchronization. In the reviewed AROA revision the originating register survives on the local transaction and is omitted from its server transaction payload. A single-site pilot and a multi-store pilot therefore need different evidence before that feed can drive inventory. [AROA register-attribution review](research/integrations/aroa-pos.md#can-a-synchronized-sale-identify-the-store)
 
@@ -14,7 +14,7 @@ For the first channel decision, a concrete question is whether a completed sale 
 | What counts as customer delivery? | Track ready, collected by carrier and handed to customer separately. Accept a recorded manual reference for the pilot. | A named carrier offers verified status updates, or the merchant's claims process requires proof of delivery, a signature or other evidence. |
 | Which facts belong to the WMS? | The WMS owns physical movements and commitments. The channel owns commercial sales. Billing owns fiscal documents. | A pilot POS already posts authoritative inventory, or a merchant's fiscal workflow requires a different issue point. Reconcile one sale, cancellation and return across systems before choosing ownership. |
 | What justifies a native app? | Prove receiving, picking and handoff in a browser on the merchant's hardware. Preserve a path to native device integrations. | Floor trials show an essential capability, device-management requirement or interaction target that the browser cannot meet reliably. |
-| Which merchant examples belong in the first trial? | Explore finished ice packs, packed produce and clothing variants against the same receiving, transfer and sale flows. Select one merchant for the initial rollout. | A walkthrough reveals variable weights, sector controls or production steps essential to fulfilling the sale. Decide whether to support those before enrolling that merchant. |
+| Which merchant examples belong in the first trial? | Explore finished ice packs, packed produce, clothing variants and locksmith hardware. Select one merchant for the initial rollout. | For the locksmith, reconcile the blanks consumed in one job with the single copy sold. Decide whether recording actual materials per job is essential. Other candidates may need measured weights, sector controls or production steps. |
 
 ### Product packaging and navigation
 
@@ -25,7 +25,7 @@ For the first channel decision, a concrete question is whether a completed sale 
 
 ## Evidence for the next discussion
 
-- **Choosing a first business.** Compare the unit actually sold, the handoff at which stock becomes available and the cost of today's correction. [Three merchant scenarios](research/discovery/three-merchant-scenarios.md) · [Spanish conversation guide](research/discovery/merchant-conversations.md)
+- **Choosing a first business.** Compare the unit actually sold, the handoff at which stock becomes available and the cost of today's correction. [Four merchant scenarios](research/discovery/three-merchant-scenarios.md) · [Spanish conversation guide](research/discovery/merchant-conversations.md)
 - **Choosing a first connector.** Trace a single sale from the checkout to the physical handover and the administrative system. Ask whether the branch and central office export the same transaction under different references. A merchant already using a2, Profit Plus or Saint may give us a better first handoff than either of the original candidate channels. [Shopify](research/integrations/shopify.md) · [AROA POS](research/integrations/aroa-pos.md) · [Venezuelan business systems](research/integrations/venezuelan-business-systems.md)
 - **Choosing how staff find stock.** Try finding the same bin from both aisle entrances and on each supported device. [Shelf addresses](research/operations/location-addressing.md) · [Map options and fixture](research/experience/warehouse-map.md)
 - **Choosing a delivery model.** Compare scoped restore, support access and who controls domain, keys, updates and outbound connections. [Tenant isolation](research/architecture/tenant-isolation.md) · [Enterprise installation](research/architecture/enterprise-installation.md)

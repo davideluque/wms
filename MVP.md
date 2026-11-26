@@ -1,6 +1,6 @@
 # Retail warehouse MVP
 
-A small or medium Venezuelan merchant sells through a checkout, an online shop, or both. Staff should be able to identify the order that created demand, the location that committed stock and the person or carrier who received it. The pilot should prove this across one warehouse and a small number of stores. An ice business, a farm selling packed produce, and a clothing shop are candidate discovery partners. Their goods, units and workflows will test how broadly the same inventory model applies.
+A small or medium Venezuelan merchant sells through a checkout, an online shop, or both. Staff should be able to identify the order that created demand, the location that committed stock and the person or carrier who received it. The pilot should prove this across one warehouse and a small number of stores. An ice business, a farm selling packed produce, a clothing shop and a locksmith shop are candidate discovery partners. Their goods, units and workflows will test how broadly the same inventory model applies.
 
 ## What the merchant can do
 

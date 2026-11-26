@@ -11,7 +11,7 @@ A small or medium business should be able to trace a sale from the channel that 
 
 ## Follow a question
 
-- **Could this work for my business?** Compare a bag of ice, a weighed crate and a clothing variant. The Spanish interview guide starts with an actual sale. [Merchant examples](research/discovery/three-merchant-scenarios.md) · [Guía de conversación](research/discovery/merchant-conversations.md)
+- **Could this work for my business?** Compare a bag of ice, a weighed crate, a clothing variant and the blanks a locksmith uses to fill one order. The Spanish interview guide starts with an actual sale. [Merchant examples](research/discovery/three-merchant-scenarios.md) · [Guía de conversación](research/discovery/merchant-conversations.md)
 - **How would a picker find a shelf?** Follow the stable bin ID from the printed rack label to the same place on a two-dimensional floor plan. [Location addressing](research/operations/location-addressing.md) · [Map design](research/experience/warehouse-map.md)
 - **What happens when two people take the last unit?** Run a small model that enumerates the possible orderings. Then examine the database and operator checks a real implementation would need. [Race conditions](research/architecture/race-conditions.md)
 - **How would customers access it?** Compare a merchant subdomain on the shared service with a dedicated installation under the customer's domain and operational control. [Tenant isolation](research/architecture/tenant-isolation.md) · [Enterprise installation](research/architecture/enterprise-installation.md)

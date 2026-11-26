@@ -1,8 +1,8 @@
-# Could an ice seller, a farm and a clothing retailer share one WMS?
+# Could an ice seller, a farm, a clothing retailer and a locksmith share one WMS?
 
 **Yes, if the job starts when identifiable goods enter stock and ends when someone takes custody of them.** The same system can receive an item, put it somewhere, reserve it, record what actually left and explain a difference at count. A bag, a weighed crate and a shirt size need different definitions of “one.” That choice affects the stock record and the receiving screen.
 
-All three examples are hypothetical. The merchants’ products, facilities, sales channels, equipment and procedures are unknown. Start each interview with a recent transaction and ask the merchant to show how it was recorded.
+The examples are hypothetical. The locksmith shop sells merchandise and makes keys. Its stock procedures, like those of the other discovery candidates, still need a walkthrough. Start each interview with a recent transaction and ask the merchant to show how it was recorded.
 
 ## Ice seller — count a bag or weigh the ice?
 
@@ -27,6 +27,24 @@ Suppose an order contains six navy shirts, three medium and three large. The rec
 An internal variant identifier is enough to try this workflow. If the merchant uses GS1 identifiers, each size and color combination has its own GTIN. Map an existing barcode to the variant and carry the style as a reporting group. RFID, assortment packs and marketplace availability become useful only if the merchant can show a job they address. [GS1 guidance on size and color variants](https://support.gs1.org/support/solutions/articles/43000734083-how-many-gs1-gtins-do-i-need-when-i-have-a-product-with-many-sizes-and-colours-)
 
 **Ask the retailer.** “Show two variants people confuse, a recent exchange and a sale made while a transfer was in progress. Which channel promised the item, and when did you make the returned garment sellable?” A point-of-sale or store platform can supply the sale and return references. Checkout, payment refunds and buying a seasonal assortment can stay with the systems that already handle them.
+
+## Locksmith shop — what leaves stock when the receipt says “copia de llave”?
+
+**Packaged hardware fits the proposed retail MVP.** Suppose the shop receives three boxes of ten padlocks, sells one padlock at the counter and hands it over. It has 29 left. The catalog holds the exact model and pack factor, the receipt names the shelf, and the handover identifies the sale. Staff can use the same receiving, lookup and replenishment workflows for cylinders, accessories and uncut key blanks that the shop actually carries. Give similar-looking blanks separate item identities when the merchant stocks them separately. [Catalog and pack units](../operations/catalog-and-units.md) · [Supplier receiving](../operations/supplier-receiving.md) · [Replenishment](../operations/store-replenishment.md)
+
+**Key copying exposes a gap.** A customer buys one finished copy. The register might say only “copia de llave”; the person at the bench knows which blank they actually used and whether the first attempt failed. The MVP defines sales, stock movements, corrections and pickup. It leaves open how a worker links material consumed during a service to the job. A proposed small extension would record the job reference, blank SKU, quantity, source bin and outcome for each attempt. Labor and payment stay with the till. Recording materials against a service task has a precedent in Odoo. The timing and who records them need to match this shop. [MVP ownership boundaries](../../MVP.md#which-system-owns-which-fact) · [Odoo service-task materials](https://www.odoo.com/documentation/19.0/applications/services/field_service/product_management.html)
+
+**Worked counter job.** Start with 20 unused blanks of type A and a request for one copy. Assume the first attempt spoils one blank and the second produces a copy that the customer collects later.
+
+| What happens | What the next worker should find |
+| --- | --- |
+| First attempt fails | 19 unused blanks. One spoiled piece is recorded against the job. If it is set aside for disposal, the hold identifies where it is. One copy is still owed. |
+| Second attempt succeeds | 18 unused blanks. One finished copy is labeled with the job reference and staged for pickup. The job history accounts for both attempts. A retry of either saved entry changes no quantity. |
+| The customer collects and the POS sale syncs | 18 unused blanks, zero copies waiting and one handover. Link the sale and pickup to the same job. Deducting another blank on payment would leave a false balance of 17. |
+
+If the customer cancels before work starts, staff can release an unused reserved blank. If a finished copy is already on the pickup shelf, retain its job reference and record what actually happens to it. A cancellation cannot turn it back into an unused blank. If a customer leaves an original at the shop, a custody entry can track its return separately from shop-owned stock. A job reference is enough for this inventory walkthrough. [Staged pickups and cancellations](../operations/order-routing.md#when-a-pickup-is-overdue-or-a-bag-is-missing) · [Ownership and custody](../operations/custody-and-ownership.md)
+
+**Pilot fit.** Packaged retail is a fit on paper. Before including the blank drawer in live availability, reconcile one actual day of finished copies, spoiled blanks and any loose blanks sold directly to a physical count by SKU. Find out whether the POS already deducts blanks and whether the worker can distinguish a legitimate second attempt from replaying the first entry. If key copying is central and those quantities cannot be captured, the retail-only pilot would cover only part of her business. [Spanish locksmith interview prompt](merchant-conversations.md#una-pregunta-distinta-para-cada-negocio)
 
 ## Choices for the product owner
 
