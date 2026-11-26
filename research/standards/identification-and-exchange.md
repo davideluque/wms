@@ -15,6 +15,14 @@ Store identifiers as strings to preserve leading zeroes. Capture the scanner’s
 
 An offline trial of the official GS1 engine showed that omitting a scanner separator can turn a lot and an expiry into one syntactically valid lot. It also distinguishes retail GTINs, pallet identifiers and the merchant’s internal bin codes. [Eight scan fixtures and observed parser results](barcode-capture-trial.md)
 
+## Physical assortments, virtual sets and packs of one SKU
+
+| What the merchant sells | GS1 identification and pilot stock treatment |
+|---|---|
+| A sealed gift box with one shampoo and one conditioner | This predefined physical assortment has its own GTIN and a fixed mix of individually identified trade items. Replacing the conditioner with a hair mask requires a new assortment GTIN and new GTINs at each existing packaging level above it. Keep the old box definition for receipts and returns. Count one sealed box while its contents are inside. [GS1 GTIN Management Standard, §2.9](https://ref.gs1.org/standards/gtin-management/) |
+| The same two items offered together online and picked separately when ordered | GS1 requires a GTIN for each component under its virtual assortment rules. The offer itself needs no GTIN. An internal offer code can record the sale. Save the promised component quantities on the order and pick one of each from stock. [GS1 General Specifications, §2.1.1.7.2](https://ref.gs1.org/standards/genspecs/) |
+| An orderable case of six identical shampoo bottles | Map the case GTIN to six units of one SKU. If the supplier changes to eight bottles, the new case and existing trade-item packaging levels above it need new GTINs. The unchanged bottle keeps its GTIN. For a consumer pack, a change in the legally required count printed as net content also requires a new pack GTIN. Preserve both conversions so scanning old stock still records six. [GS1 GTIN Management Standard, §§2.3 and 2.8](https://ref.gs1.org/standards/gtin-management/) |
+
 ## Recovering identifiers from a spreadsheet
 
 Keep the original file and inspect the stored cell or raw CSV field before repairing a row. Excel's number format can hide digits in the display. Its automatic numeric conversion can also discard digits beyond 15 significant figures. Changing the display afterward can reveal digits the cell still holds. [Microsoft on scientific display](https://support.microsoft.com/en-us/excel/display-numbers-in-scientific-exponential-notation) · [Microsoft on leading zeroes and numeric precision](https://support.microsoft.com/en-us/excel/keeping-leading-zeros-and-large-numbers)

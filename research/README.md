@@ -48,6 +48,7 @@ These notes combine published sources, proposed design choices, and questions fo
 | [Order routing and pickup](operations/order-routing.md) | Which site can fulfill the whole order and honor a customer's chosen pickup point? |
 | [Returns and corrections](operations/returns-and-corrections.md) | What changes when an item is refunded, physically returned, exchanged or found after dispatch? |
 | [Catalog and units](operations/catalog-and-units.md) | Can old and new pack sizes coexist and an old receipt still identify exactly what was sold? |
+| [Retail bundles](operations/retail-bundles.md) | Can a store promise a complete outfit while also selling and accepting returns of its individual components? |
 | [Importing the first catalog](operations/catalog-import.md) | Can the merchant correct a spreadsheet, keep existing mappings and predict what the receiving scanner will count? |
 | [Permissions and stock history](operations/permissions-and-history.md) | Who may report, approve and post a stock change, and how will the next shift reconstruct it? |
 | [Pilot balance replay](operations/pilot-balance-replay.md) | Can the initial ten units be reconciled across a sale, a short transfer, retries and a carrier handoff? |
