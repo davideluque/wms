@@ -4,6 +4,10 @@ A picker standing at the receiving door should be able to find a bin from the wo
 
 ## A scheme staff can read from either end of the aisle
 
+Before choosing the codes, walk one delivery from the door to the shelf and one sale from the shelf to handover. Mark every place goods can wait long enough for a second person to find them. Sketch the receiving surface, ordinary stock, goods awaiting inspection, packed customer pickups, and parcels waiting for a carrier. A small shop might use the same counter for two jobs at different times. Ask how the next worker distinguishes the goods there. A virtual room with no corresponding physical sign creates an address that only the software can find.
+
+For a clothing shop with one stockroom, the first usable layout might be a receiving spot, two signed shelving bays, a returns container and a numbered pickup shelf. If packages waiting for the courier share that shelf, give them a visibly distinct position. The clerk receiving one ordinary box can count it directly into its final bay. A delivery awaiting inspection goes to the identifiable hold area. Add an intermediate scan where goods actually wait, change hands or change eligibility. Odoo's documented one-, two- and three-step flows give examples of this choice and the extra confirmations it creates. [Odoo inbound and outbound flows](https://www.odoo.com/documentation/19.0/applications/inventory_and_mrp/inventory/shipping_receiving/daily_operations.html)
+
 | Address component | Example at the pilot site | Sign or convention to agree |
 | --- | --- | --- |
 | Site, floor and zone | Depósito Centro, planta baja, seco | Use the site and floor in search results. Put the zone name at the entrance. A small stockroom can omit hierarchy levels it never uses. |

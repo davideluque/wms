@@ -4,6 +4,16 @@ Our first customer profile is a small or medium Venezuelan merchant with a sales
 
 These notes combine published sources, proposed design choices, and questions for fieldwork. We have yet to observe a pilot site. Examples with quantities are hypothetical.
 
+## What we have tested
+
+| Experiment | Observed result | Boundary |
+| --- | --- | --- |
+| [Two connections reserve the last bag](architecture/race-conditions.md#native-postgresql-check-on-the-last-bag) | PostgreSQL held the second writer until the first finished. A first-writer commit left one promise for A. A rollback let B take it. | Two controlled schedules on one stock row |
+| [PostgreSQL merchant isolation](architecture/tenant-isolation-trial.md) | Twelve assertions passed for merchant-scoped reads and writes, a composite foreign key, reuse after rollback and privileged-role behavior. | Two synthetic merchants in a disposable native PostgreSQL 16.15 cluster |
+| [Offline observation capture](architecture/offline-capture-trial.md) | An aborted observation and command rolled back together. A repeated command retained its original quantity after a browser restart. | Local Chromium storage; separate merchant keys on one origin still require application authorization |
+| [Floor-plan marker and list](experience/warehouse-map.md#browser-feasibility-check) | The marker remained aligned with its shelf at two screen sizes. Keyboard selection worked through the HTML list with the diagram removed. | A synthetic SVG fixture in headless Chromium |
+| [Pilot stock walkthrough](operations/pilot-balance-replay.md) | Ten units reconciled across six distinct commands, including a sale and a partially received transfer. | A Python arithmetic model |
+
 ## Merchant discovery and local context
 
 | Investigation | Decision it informs |
@@ -19,6 +29,7 @@ These notes combine published sources, proposed design choices, and questions fo
 | Investigation | Decision it informs |
 | --- | --- |
 | [Shelf and bin addressing](operations/location-addressing.md) | What code should a worker see and scan at the same shelf from either end of an aisle? |
+| [Custody and ownership](operations/custody-and-ownership.md) | How does moving merchant-owned goods between stores differ from handling another owner's goods? |
 | [Manual picking and travel](operations/manual-picking.md) | Would better shelf identification, a different walking order or a two-order batch improve this site's work? |
 | [Common warehouse problems](operations/common-problems.md) | What should a worker check first when a bin is empty, a transfer disappears or two customers are promised the same item? |
 | [Cycle counting](operations/cycle-counting.md) | How can staff count while trading and avoid deducting a late sale twice? |

@@ -27,6 +27,8 @@ During a staged rollout, accept the supported earlier command format, retain its
 
 ## Floor-device trial
 
+The [offline capture trial](offline-capture-trial.md) records which IndexedDB behaviors were observed in Chromium and why the real device still needs testing with evictions, shared accounts and interrupted shifts.
+
 1. Record the actual handheld model, imager, OS, browser/WebView, scanner profile, management policy and label formats. Include the oldest supported device and a representative desk browser. Confirm whether shared iPhones or iPads are in scope before budgeting for an iOS build.
 2. Have a receiver scan a location, retail item and case label through a normal carton, then enter a damaged label manually. Include deliberate repeated scans of identical items. Measure wrong-field captures, dropped or duplicated reads, and median and 95th-percentile time from trigger to visible confirmation. Compare with the team’s current receiving pace.
 3. Disconnect after a scan and again after server commit but before the reply. Lock and restart the device, switch operators and then reconnect. Pass when every locally acknowledged scan is accounted for, stock is posted once per intended operation, and pending work retains its operator and site. Exercise a failed local write and verify that the worker sees recovery instructions.

@@ -31,6 +31,17 @@ for guarded, expected in [(False, 4), (True, 0)]:
 
 This enumerates a small abstract model. It supplies a counterexample to “we checked on the previous screen.” It gives no observed oversell probability and establishes no isolation guarantee for a chosen database. A real implementation needs two connections, the intended application role, and the exact posting query. PostgreSQL documents row-update predicate rechecks and the circumstances in which an entire transaction must retry. [PostgreSQL transaction isolation](https://www.postgresql.org/docs/18/transaction-iso.html) · [Stock verification scenarios](inventory-verification.md)
 
+### Native PostgreSQL check on the last bag
+
+On 26 November 2026 two independent `psql` connections using an ordinary application role ran against a private PostgreSQL 16.15 cluster. Each case started with one free bag and an empty promise table. In a Read Committed transaction, A decremented the balance using `UPDATE … WHERE free >= 1 RETURNING id` and inserted its promise from the returned row. B attempted the same operation with its own identity. A third connection observed B waiting on A through `pg_blocking_pids` before releasing A. The query wrote a promise only if its guarded update returned a row.
+
+| A’s transaction | B’s promise rows inserted | Final free bags | Committed promises |
+| --- | ---: | ---: | --- |
+| Commit | 0 | 0 | A only |
+| Roll back | 1 | 0 | B only |
+
+Both observed outcomes matched the expected one-bag invariant. The earlier Python example enumerates schedules. This trial exercised a real row lock and predicate recheck on one balance row under two controlled schedules. Multi-row rules, application retries and production workload remain separate tests. [PostgreSQL 16 transaction isolation](https://www.postgresql.org/docs/16/transaction-iso.html) · [Disposable database environment](tenant-isolation-trial.md)
+
 ## Race catalog
 
 | Competing actions | Required outcome under the pilot policy | What to coordinate and show |
