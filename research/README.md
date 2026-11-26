@@ -52,6 +52,7 @@ These notes combine published sources, proposed design choices, and questions fo
 
 | Investigation | Decision it informs |
 | --- | --- |
+| [Venezuelan quantity entry and dates](experience/venezuelan-entry-and-display.md) | How should a scale reading, decimal comma or late register sale appear in the right unit and business day? |
 | [Warehouse maps](experience/warehouse-map.md) | How do we connect a physical bin to a searchable, accessible floor plan and decide whether SVG, Canvas or Leaflet fits? |
 | [Merchant accounts and staff access](experience/merchant-account.md) | How does an owner invite workers, switch businesses, transfer ownership or exit with pending stock work? |
 | [Floor workflows and accessibility](experience/floor-workflows.md) | Can a worker scan, correct a mistake and hand over a partly finished task on the site's equipment? |
@@ -62,6 +63,7 @@ These notes combine published sources, proposed design choices, and questions fo
 
 | Investigation | Decision it informs |
 | --- | --- |
+| [Inventory snapshots and catch-up](integrations/inventory-catch-up.md) | Can a merchant rebuild current stock when lines change or disappear halfway through a paged read? |
 | [Identification and exchange standards](standards/identification-and-exchange.md) | Which identifiers, labels and messages must survive the first trading-partner handoff? |
 | [Merchant APIs and webhooks](integrations/merchant-api.md) | How can a checkout submit a sale once, recover from a lost response and reconcile missed events? |
 | [Shopify integration](integrations/shopify.md) | How do checkout, pickup and fulfillment affect stock in both systems? |

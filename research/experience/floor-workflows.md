@@ -12,7 +12,21 @@ Start every task screen with the order or receipt, location, expected item and u
 | Stage a pickup | “Escanea la bolsa del pedido 514 y la ubicación de retiro.” Then “Pedido 514 · Estante R-02 · 1 de 1 bolsas”. Offer **Marcar listo para retirar**. | The pickup queue shows the staging location. If a transfer is needed, the store verifies physical arrival and completeness before marking the order ready. Track customer notification separately if the store uses it. |
 | Hand goods to the customer | **Retiro 514 · R-02**. “Verifica el pedido y escanea la bolsa.” When order and bag agree, offer **Confirmar entrega**. If bag 541 is scanned, show “Esta bolsa es del pedido 541. Busca la del 514 en R-02.” | The clerk confirms the store’s pickup check and the physical handover. A second clerk confirming the same bag sees the existing handover time and operator. If cancellation has claimed the staged quantity, stop collection and show who is checking the bag. If an offline device has conflicting evidence of an actual handover, preserve its observation for review. Shopify documents separate ready-for-pickup and collected milestones in its own workflow. [Shopify pickup workflow](https://help.shopify.com/en/manual/fulfillment/setup/delivery-methods/pickup-in-store) |
 
+## A pallet arrives with an unfamiliar case
+
+Receipt 218 expects 12 one-kilogram bags of rice. At the dock there is one pallet carrying one case. Its labels include a pallet barcode, an unfamiliar case GTIN and a supplier’s short code. The receiver starts with “Escanea la caja de arroz.” Which symbol the reader returns determines the next prompt. [What a GS1 scan identifies](../standards/identification-and-exchange.md#what-a-scan-identifies)
+
+| Reading | Handheld prompt | Effect on this receipt |
+| --- | --- | --- |
+| Pallet SSCC | “Paleta identificada. Escanea una caja para contar su contenido.” | Link the pallet to receipt 218. Zero bags counted. |
+| Supplier code `0042` also used on local labels | “El código 0042 tiene más de un uso. Escanea la etiqueta del producto.” Offer **Buscar producto**. | Keep the scan with the open task. Zero bags counted. |
+| Case GTIN with no verified pack size | “Caja sin presentación registrada. Cuenta las bolsas y verifica el producto.” Offer **Contar por unidad** or **Dejar pendiente en el muelle**. | Save one unidentified case in dock custody. Quantity available stays unchanged. |
+
+The receiver opens the case, matches a bag to the known **Arroz 1 kg** variant and counts ten intact bags. The screen asks “Contaste 10 bolsas. Se esperaban 12. ¿Confirmar recepción de 10?” On confirmation, resolve the provisional case into **10 bags received, 10 available, 2 still due**. The case and pallet add zero extra units. Keep the observed count, case code, operator and reason on this receipt. A later delivery using the same unknown case code still requires verification. If staff cannot identify or inspect the contents, leave the case pending for the next shift. [Pack mappings and historical receipts](../operations/catalog-and-units.md)
+
 ## A second scan and a second attempt to save
+
+For weighed goods, show the confirmed quantity and unit before saving a manual reading. The [Venezuelan entry and display examples](venezuelan-entry-and-display.md) show why the same punctuation can mean different quantities on a scale and in a supplier export.
 
 Two identical product labels can represent two physical units. Give every deliberate unit scan a new local operation ID. A repeated transmission after a timeout reuses the original ID, and the service returns the previously recorded result. For a serialized item or uniquely labeled bag, validate its identifier within the task and explain an earlier acceptance. A scanner in continuous-read mode may decode a label more than once while it remains under the beam. Record the device mode and test single-trigger operation or its repeat timeout before using scan-to-increment. Zebra documents a same-symbol timeout specifically for continuous-read mode. [Zebra DataWedge barcode input](https://techdocs.zebra.com/datawedge/latest/guide/input/barcode/)
 

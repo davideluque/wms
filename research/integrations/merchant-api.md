@@ -23,6 +23,8 @@ Sign the original body, message ID and attempt timestamp. Verify the signature b
 
 If revision 19 arrives before 18, fetch current state before applying a change that assumes an earlier revision. A quiet endpoint can also miss its final notification. Offer paged catch-up from an opaque cursor, with a stable snapshot or upper bound, a published retention period, and a recovery path from an expired cursor. Start a fresh snapshot with its corresponding continuation cursor so changes during enumeration are covered. Show operators the last successful delivery and provide replay using the original event ID.
 
+The [inventory catch-up trial](inventory-catch-up.md) compares three ways to read a changing catalog. It includes an item removed during a download and a new stock revision that arrives while the consumer is catching up.
+
 ## Local trial of the order and its webhook
 
 **Observed on 26 November 2026.** A Python 3.12.3 fixture used two independent native SQLite 3.45.1 files. One transaction wrote the order and its outbox event. A second transaction recorded the received event and added its units to the consumer’s demand total. Four short-lived processes exited immediately before or after those commits. All assertions passed without a webhook service or external endpoint.
