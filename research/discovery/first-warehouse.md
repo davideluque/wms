@@ -23,3 +23,16 @@ Use one row per observed step: **who acted → what they saw → what they did �
 For the example of a short delivery, measure the time from physical receipt to stock becoming usable, and from finding the shortage to the buyer having enough information to act. Record lines handled and how many needed re-entry so that a busier day is interpretable. Agree on a target with the buyer after seeing the baseline.
 
 An initial prototype is worth building when the team can replay the ordinary case and its exception, name the next person affected, and identify a measurable improvement. If uncertainty remains over who can release stock or who owns discrepancies, another conversation with that role is likely to teach more than a broader feature survey.
+
+## How to tell whether the pilot helped
+
+Agree on the window, denominator and evidence for each measure with the merchant before comparing results. Record a baseline on the same kinds of shifts and report the number of observations beside every percentage. A first week with more reported discrepancies can mean that staff finally have somewhere to record them. Inspect the cases before attributing a cause.
+
+| Operational question | Proposed pilot measure | Interpretation to check |
+| --- | --- | --- |
+| Can the picker trust a location? | Counted variant–bin–condition records matching the reconciled physical count divided by all records counted. Include unexpected items and explicit zero counts. | A correct site total can conceal stock in the wrong place. Report count scope, date and disputed movements. |
+| Can the store keep its promises? | Original order lines fulfilled in full by the agreed service cutoff divided by lines due in that window. Keep customer-approved substitutions, cancellations and partials identifiable. | APQC's order-line fill rate measures complete lines. The cutoff is our proposed pilot addition. Publish raw line counts and separate pickup from shipping. [APQC order-line fill rate](https://www.apqc.org/what-we-do/benchmarking/open-standards-benchmarking/measures/order-line-fill-rate) |
+| Did automation save the employee work? | Minutes of active handling and repeated manual entries per completed sale or transfer. Also record elapsed time to resolution for exceptions. | A faster happy path can shift work to the next person. Measure the buyer, store clerk or dispatcher who actually closes the exception. |
+| Does the next shift inherit a usable record? | Ask incoming staff to identify the unresolved quantity, physical custody, next action and authorized owner from the WMS. Record successful cases and time taken. | Include at least one short receipt and one delayed digital acknowledgment. A green notification cannot establish physical handover. |
+
+**A misleading total.** The ledger shows four medium shirts in bin A and one in B. A reconciled count finds two in A and three in B. The site total is five on both sides, yet zero of two bin records match and a picker sent to A for three shirts will be short. Two misplaced shirts account for both differences. Summing the absolute bin variances gives four units of discrepancy across records, which would overstate how many physical shirts need moving. Follow the movement evidence before posting a loss. [Cycle counting](../operations/cycle-counting.md)

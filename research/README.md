@@ -38,6 +38,7 @@ These notes combine published sources, proposed design choices, and questions fo
 | [Common warehouse problems](operations/common-problems.md) | What should a worker check first when a bin is empty, a transfer disappears or two customers are promised the same item? |
 | [Cycle counting](operations/cycle-counting.md) | How can staff count while trading and avoid deducting a late sale twice? |
 | [Warehouse operations and inventory](operations/stock-and-workflows.md) | What happened physically, who can act on it, and what can the next shift trust? |
+| [Supplier receiving without an ERP](operations/supplier-receiving.md) | How can a small shop record a substitute or short delivery before anyone settles the supplier bill? |
 | [Store replenishment](operations/store-replenishment.md) | How much should a store request when stock is scarce or a transfer is already on its way? |
 | [Opening inventory and cutover](operations/opening-inventory.md) | How does a merchant begin with trustworthy balances while sales continue? |
 | [Order routing and pickup](operations/order-routing.md) | Which site can fulfill the whole order and honor a customer's chosen pickup point? |
