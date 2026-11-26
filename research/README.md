@@ -13,6 +13,7 @@ These notes combine published sources, proposed design choices, and questions fo
 | [Offline observation capture](architecture/offline-capture-trial.md) | An aborted observation and command rolled back together. A repeated command retained its original quantity after a browser restart. | Local Chromium storage; separate merchant keys on one origin still require application authorization |
 | [Floor-plan marker and list](experience/warehouse-map.md#browser-feasibility-check) | The marker remained aligned with its shelf at two screen sizes. Keyboard selection worked through the HTML list with the diagram removed. | A synthetic SVG fixture in headless Chromium |
 | [HTTP contract comparison](architecture/server-tooling.md#observed-http-contract-on-two-frameworks) | Across 32 requests, the default validators differed on numeric input. With strict settings both frameworks agreed on all eight receipt cases. | Loopback HTTP and exact decimal-string validation, without database or latency measurements |
+| [Order and webhook recovery](integrations/merchant-api.md#local-trial-of-the-order-and-its-webhook) | After four process interruptions and full replay, three orders produced three applied events. A missing event for one merchant did not delay another. | Local SQLite producer and consumer, without external event delivery |
 | [Enterprise export replay](architecture/tenant-export-example.md#replay-evidence-and-limits) | Five file hashes matched. Reimporting kept the two outstanding bags in transit, and a foreign merchant's attachment was rejected. | Synthetic in-memory import and a held delivery record |
 | [GS1 scan capture](standards/barcode-capture-trial.md) | Removing one separator produced a valid but different lot and no expiry. An item requiring expiry needs a separate field check. | Eight synthetic scanner outputs through the official syntax engine, without physical image decoding |
 | [Pilot stock walkthrough](operations/pilot-balance-replay.md) | Ten units reconciled across six distinct commands, including a sale and a partially received transfer. | A Python arithmetic model |
@@ -64,6 +65,7 @@ These notes combine published sources, proposed design choices, and questions fo
 | [Merchant APIs and webhooks](integrations/merchant-api.md) | How can a checkout submit a sale once, recover from a lost response and reconcile missed events? |
 | [Shopify integration](integrations/shopify.md) | How do checkout, pickup and fulfillment affect stock in both systems? |
 | [AROA POS integration](integrations/aroa-pos.md) | How can a completed sale and its paid check produce a single movement at the correct store? |
+| [Venezuelan business systems](integrations/venezuelan-business-systems.md) | What do a2, Profit Plus and Saint document, and which line-level records could the first merchant actually supply? |
 | [Venezuelan parcel carriers](integrations/venezuela-carriers.md) | What evidence distinguishes a printed guide, a booked pickup, carrier acceptance and delivery? |
 
 ## Architecture and technology
@@ -81,6 +83,12 @@ These notes combine published sources, proposed design choices, and questions fo
 | [Server tools for 2027](architecture/server-tooling.md) | Which HTTP, schema and database libraries make stock transactions easiest for the team to verify? |
 
 The [decisions for the retail pilot](../DECISIONS.md) record working assumptions and the evidence that could change them.
+
+## Pilot verification issues
+
+- Use a shared handheld to switch merchants with unposted work, including a revoked membership. [Issue #1](https://github.com/davideluque/wms/issues/1)
+- Capture a real label and recover when an expiry field disappears from scanner output. [Issue #2](https://github.com/davideluque/wms/issues/2)
+- Sync an offline POS sale that happened before the opening count, then a separate sale after cutover. [Issue #3](https://github.com/davideluque/wms/issues/3)
 
 ## In what order?
 

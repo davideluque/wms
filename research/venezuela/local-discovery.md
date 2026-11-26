@@ -14,6 +14,8 @@ SENIAT’s SNAT/2011/00071, published 8 November 2011, distinguishes invoices fr
 
 Ask the ERP administrator for redacted exports from both sides of one transaction. Match order and line IDs, SKU, quantity and unit, site, movement date, fiscal document type and issuer’s reference. Ask where the recipient’s *RIF* (tax identifier), prices, currency and exchange rate originate if used. Start by asking whether the warehouse can confirm physical quantities and exceptions while the existing billing system issues and numbers fiscal documents. Test that proposal against the operator’s actual process and the accountant’s advice.
 
+For the first systems walkthrough, identify the exact register, administrative suite, edition and branch setup. A local sale and its synchronized central copy can describe the same handover. A repeatable export or supported partner interface may be the right first connection. [a2, Profit Plus and Saint research](../integrations/venezuelan-business-systems.md)
+
 ## Units, labels and traceability
 
 Keep the original identifier and package description from each sample. They provide the evidence needed to resolve reused supplier codes or a change in case size. [Catalog mappings and pack-size revisions](../operations/catalog-and-units.md)

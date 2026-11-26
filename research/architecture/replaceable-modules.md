@@ -41,6 +41,14 @@ A handheld can durably save scans with the command ID, task, quantity, observed 
 
 If the aisle must authorize a new reservation while disconnected, evaluate exclusive preassigned work or quantity rights per device or site. With four rights granted to the aisle and two retained centrally, each can spend only its own share. The safety cost is stranded capacity when a device disappears. Recovery must account for old-device writes before reissuing its rights. Quantity rights alone do not settle lot recalls or conflicting claims to the same serial number. The bounded-counter research supplies the numeric mechanism. The warehouse eligibility and recovery rules still need validation. [Balegas et al., *Extending Eventually Consistent Cloud Databases for Enforcing Numeric Invariants*](https://arxiv.org/abs/1503.09052)
 
+### Two units split between the store and the online channel
+
+Suppose two bags remain at one site and its register loses connectivity. In this example, the register and the online channel have independent demand of zero, one or two bags during the outage. There are nine possible demand pairs. If both sides can promise the last published balance of two, they exceed the physical supply on three pairs: store/online demand of (1, 2), (2, 1) and (2, 2).
+
+Now preassign one bag to each side. Neither can oversell the pair. If demand is (0, 2) or (2, 0), the only active channel must decline one otherwise feasible sale until coordination returns. Assigning both units to the store instead shifts that shortfall toward online customers. The scenarios are possibilities, not an estimated probability for the merchant. They assume the POS actually enforces its allocation. A manual till that allows unrestricted offline sales can still hand over more stock than the allocation authorizes.
+
+For a first merchant, measure actual disconnected selling and late uploads before adding quotas. Test a simpler policy such as restricting online promises from the disconnected location, while displaying its last confirmation time and reconciling sales after return. Account for the lag before an external checkout sees any pause. For scarce goods, a manager may choose to reserve a small store-only quantity even while connected. The published stock view should explain those withheld units.
+
 ## How to demonstrate a replacement
 
 - **For a policy change**, run both implementations on eligible, held, expired and tied candidates. A changed ranking can be intentional. Check that the proposed quantities, units and eligibility satisfy the contract, and that inventory rejects stale choices at commit.
