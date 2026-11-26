@@ -100,6 +100,7 @@ The [decisions for the retail pilot](../DECISIONS.md) record working assumptions
 - Sync an offline POS sale that happened before the opening count, then a separate sale after cutover. [Issue #3](https://github.com/davideluque/wms/issues/3)
 - Rehearse two clerks counting the same carton, then two distinct cartons carrying the same product. [Issue #4](https://github.com/davideluque/wms/issues/4)
 - Verify the stock-feed cursor against writes that allocate IDs in one order and commit in another. [Issue #5](https://github.com/davideluque/wms/issues/5)
+- Test scanner input while focus is in a quantity field, another task or a confirmation dialog on the receiving device. [Issue #6](https://github.com/davideluque/wms/issues/6)
 
 ## In what order?
 
