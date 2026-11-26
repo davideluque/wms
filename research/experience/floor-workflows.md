@@ -40,6 +40,20 @@ Two identical product labels can represent two physical units. Give every delibe
 | Concurrent change | “Solo queda 1 unidad disponible. Solicitaste 2.” Show the confirmed count, **Actualizar cantidad** and **Solicitar revisión**. Keep the attempted action visible until resolved. |
 | Shift ends mid-task | **Entregar turno** shows the open order, confirmed quantities, physical location, outstanding exception, owner and pending uploads. Incoming staff use **Retomar tarea** under their own login. If a scan exists only on the outgoing device, flag it for recovery there before anyone repeats it. |
 
+## Retomar un cambio pendiente en el mostrador
+
+En Centro, una persona devuelve una camisa azul talla M y pide una L. Caja autoriza el cambio, pero Centro no tiene talla L. La encargada recibe la M, la deja en el estante de devoluciones y entrega la referencia **Cambio 82**. Al pulsar **Retomar cambio**, el siguiente turno ve dónde quedó la prenda, qué autorizó caja y qué falta por entregar.
+
+| Lo que muestra Cambio 82 | Qué puede hacer el siguiente turno |
+| --- | --- |
+| **Prenda recibida** · 1 azul M · Centro · estante D-02 · pendiente de revisión | Localizar la prenda. Hay una M en custodia y cero M disponibles para la venta por esta devolución. Revisar el caso no vuelve a recibirla. |
+| **Decisión de caja** · Cambio autorizado · comprobante C-318 · sin reembolso | Consultar el comprobante que respalda la decisión. El número de cambio o el comprobante permiten retomar el trámite sin pedir nombre ni teléfono. |
+| **Entrega pendiente** · 1 azul L · sin reservar · a cargo del encargado de Centro | **Consultar otra tienda**. Mostrar plazo y lugar de retiro solo cuando estén confirmados. Hasta entonces, decir «Ya recibimos la talla M. La talla L sigue pendiente». |
+
+**Si Norte puede entregar la L.** Con la conformidad del cliente, Norte reserva una L disponible para el mismo cambio. Al preparar la prenda marca **Lista para retirar en Norte**. Al entregarla confirma **Talla L entregada** y guarda tienda, hora y referencia de entrega. El caso muestra una L entregada, cero por entregar y el comprobante de cambio de caja. La M sigue en D-02 hasta que Centro registre el resultado de su revisión.
+
+**Si el cliente elige el reembolso.** La persona autorizada verifica primero que Norte no haya entregado la L y que cualquier bolsa preparada siga en la tienda. Cancela la entrega pendiente y libera la reserva, si la había, una sola vez. Mientras caja tramita el pago se lee **Reembolso pendiente**. Con la confirmación de caja y su referencia pasa a **Reembolso confirmado · sin prenda por entregar**. Si ya figura una entrega o falta sincronizarla, se muestra **Verificar entrega en Norte** antes de resolver. El reembolso por sí solo mueve cero prendas. [Devoluciones y cambios entre tiendas](../operations/returns-and-corrections.md)
+
 ## Accessibility and device checks
 
 For a web interface targeting WCAG 2.2 AA, the applicable A and AA criteria include keyboard operation, visible keyboard focus, text descriptions of detected input errors, and status messages that assistive technology can announce without moving focus. Color alone cannot convey status. Normal text generally needs at least 4.5:1 contrast. Level AA’s pointer-target criterion uses 24 by 24 CSS pixels with specified exceptions, including spacing. These are selected conformance criteria for the web UI. [WCAG 2.2, criteria 1.4.1, 1.4.3, 2.1.1, 2.4.7, 2.5.8, 3.3.1 and 4.1.3](https://www.w3.org/TR/WCAG22/)
