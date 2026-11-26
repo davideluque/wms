@@ -32,3 +32,16 @@ For countable goods, validate the entered quantity against the presentation’s 
 A prepacked tray sold by the piece can be countable even when its label mentions weight. Loose produce sold by actual net weight needs measured quantities. If added later, define scale resolution and ledger precision, store the measured value and unit, and convert using exact decimal arithmetic. For example, 1.275 kg plus 0.725 kg equals 2,000 g. If a scale reads only to 10 g, a supplied value of 1.275 kg needs a source check. Preserve the observation and obtain an authorized correction. Keep price rounding in the sales system. A crate count, a selling price or a nominal average cannot reconstruct the weight of the actual pick. [GS1 variable-measure trade items](https://support.gs1.org/support/solutions/articles/43000734396-what-is-a-variable-measure-trade-item-) · [BIPM SI Brochure](https://www.bipm.org/en/si-brochure-9)
 
 **Pilot test.** Receive both ice case sizes on the same day, reprint the old case label, return a case against its original receipt, and replay that return. Ask a picker to scan the conflicting shirt alias with and without supplier context. Pass when the unexplained scan remains actionable, the receipt and return quantities remain reproducible, the reprint moves no stock, and the final balance remains 21 bags after replay.
+
+## Import trial — a second administrator edits the catalog after preview
+
+An administrator previews a two-row file for one merchant. It adds **SHOP-H** for one hook and **SHOP-42** for the six-bag ice case currently identified by supplier barcode **SRC-42**. Neither shop alias exists at preview. Python 3.12.3 and native SQLite 3.45.1 ran eight synthetic schedules on 26 November 2026, using one import connection and a second administrator’s connection.
+
+| Second administrator’s committed change | Apply using the latest lookup without checking the preview | Apply only the approved preview |
+| --- | --- | --- |
+| Switch SRC-42 to a new five-bag ice package. | SHOP-42 silently identified five bags. | Review the six-to-five difference. Neither import row posted. |
+| Remap SRC-42 to six gel packs. | SHOP-42 identified the wrong item despite an unchanged factor of six. | Review the changed item and package. Neither row posted. |
+| Assign the previously unused SHOP-42 to gel packs. | The import overwrote the other administrator’s assignment. | Preserve the assignment, flag the collision and leave SHOP-H unapplied. |
+| Edit an unrelated supplier code. | Both rows posted. | Both rows posted. Replaying the approval produced no second change. |
+
+To repeat, reset the two-row preview before each change. At apply, compare the resolved item, immutable package and factor, source mapping revision, and expected current assignment of each target alias in the same transaction as the batch write. Check the **absence** of a previously unused alias too. In the first two guarded cases, a fresh preview approved under a new ID posted once. Keep a target collision open until an authorized person chooses its disposition. The fixture used a fixed file and an all-or-review batch policy. A production approval should bind the merchant, source namespace, exact file digest and reviewed rows so it cannot authorize a different import. The trial exercised metadata writes only.

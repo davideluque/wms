@@ -15,6 +15,22 @@ Unicode CLDR defines the symbols and patterns used to present local numbers. ECM
 
 Keep UTF-8 text such as **Depósito Ñandú** on the screen, label and export. A search index may normalize equivalent spellings or offer a forgiving search, with the original name shown for confirmation. Preserve identifier strings such as `00042` and `AÑO-01` exactly as supplied. Define any identifier comparison rules per source and flag collisions. A text search match cannot authorize merging products. [Unicode normalization forms](https://www.unicode.org/reports/tr15/)
 
+## Preview a spreadsheet export before it changes stock
+
+A merchant can export comma-decimal quantities in a semicolon-delimited file. Excel documents how separator settings affect its text export. LibreOffice Calc exposes the character set, separator, numeric language and column type on import. Ask for an untouched export and its settings. Opening and resaving a file can lose evidence such as leading zeroes. [Excel text import and export](https://support.microsoft.com/en-us/excel/get-started/import-or-export-text-txt-or-csv-files) · [Calc text import settings](https://help.libreoffice.org/latest/en-US/text/shared/00/00000208.html)
+
+For this synthetic receipt, the source profile specifies five columns, semicolons, double quotes, a decimal comma and kilogram quantities to three fractional places. The quoted semicolon belongs to the location name.
+
+~~~text
+linea;sku;ubicacion;peso;unidad
+V17-1;00042;"Depósito Ñandú; frío";1,275;kg
+V17-2;00042;"Depósito Ñandú; frío";0,725;kg
+~~~
+
+The preview should show **SKU 00042**, **Depósito Ñandú; frío**, the two raw quantities alongside **1275 g** and **725 g**, and **2 filas · 2000 g · sin registrar**. The receiver checks both lines against the supplier slip before committing. Keep document and line IDs stable across corrected previews. If the file has already lost the two leading zeroes, obtain the source mapping before assigning a product.
+
+**Local parse check.** In Python 3.12.3, a quote-aware reader and exact decimal conversion produced 2000 g from two separately encoded copies, one UTF-8 with a byte-order mark and one Windows-1252, each read under its declared encoding. In four negative trials the preview stopped before posting. The wrong delimiter produced the wrong header. A Windows-1252 accent failed strict UTF-8 decoding, as did the legacy row in a mixed-encoding file. The second data row containing `0.725` failed the declared comma-decimal rule. Preserve the bytes and identify the setting or row to correct. Request a consistent re-export for a mixed file. Valid decoding alone cannot resolve every encoding ambiguity, so compare the displayed location with the merchant’s location list. This local test used synthetic text and did not exercise Excel, Calc or a live register.
+
 ## A delayed sale over midnight
 
 Configure each store’s time zone explicitly, for example `America/Caracas`. IANA records a historical offset change for Caracas. Instants should travel with UTC or an explicit offset, while the store retains its zone and operator-defined business day or register shift. A customer’s date-only pickup promise or printed expiry date stays a local calendar date. Ask the merchant what happens when a shift spans midnight and when finance closes a day. a2 describes branch sales synchronizing after connectivity returns, which makes the distinction observable on a real register. [IANA Caracas time-zone change](https://www.iana.org/time-zones/releases/2016d) · [RFC 3339 timestamps](https://www.rfc-editor.org/rfc/rfc3339) · [a2 branch POS synchronization](https://a2.com.ve/producto/13-manager-punto-de-ventas/)
