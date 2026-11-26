@@ -9,11 +9,11 @@ A useful first integration takes one order, recovers from a lost reply and answe
 3. Return a WMS order identifier and lookup URL. Distinguish “order recorded, awaiting stock” from “three units reserved at Store A.” Request acceptance alone cannot establish availability.
 4. Expose an inventory read with unit, location, available quantity, as-of time and revision. Publish a read-only order view with quantities ordered, reserved and handed over by line. A delayed webhook consumer can look up the authoritative state by ID.
 
-Publish the request, response, webhook and error schemas together with working examples. OpenAPI supports HTTP operations and provider-initiated webhooks. RFC 9457 provides an error format with a stable problem type. A proposed unknown-SKU response would name the order line, external SKU and resolution action so a merchant can fix the mapping and resubmit. [OpenAPI specification](https://spec.openapis.org/oas/v3.1.1.html) · [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457.html)
+Publish the request, response, webhook and error schemas together with working examples. OpenAPI supports HTTP operations and provider-initiated webhooks. RFC 9457 provides an error format with a stable problem type. For a syntactically valid order with an unknown SKU, return the recorded order ID, affected line and external SKU with a pending-mapping status. An unchanged submission replays that recorded outcome. After staff repair the mapping, a new reprocessing command references the existing order and attempts reservation once. The lookup shows its current status. [OpenAPI specification](https://spec.openapis.org/oas/v3.1.1.html) · [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457.html)
 
 ## When the reply is lost
 
-Suppose the checkout submits sale 412 with an operation key, the WMS reserves the final three units, then the reply disappears. The client retries with the same key and payload. A proposed contract records the command result atomically with the order write, returns the original result, and rejects a changed payload under that key. Scope the key by merchant and operation. Preserve the external order and line identity beyond the retry window so an old import cannot create a second sale. A later customer edit is a new operation on the existing order. HTTP defines idempotence at the method level for certain methods. A retryable order-creation POST needs a documented application contract. [RFC 9110 §9.2.2](https://www.rfc-editor.org/rfc/rfc9110.html#name-idempotent-methods)
+Suppose the checkout submits sale 412 with an operation key, the WMS reserves the final three units, then the reply disappears. The client retries with the same key and payload. A proposed contract records the command result atomically with the order write, returns the original result, and rejects a changed payload under that key. Scope each client key by authenticated merchant, source installation and operation type. Check the caller’s current action and site permissions before returning a cached result. Preserve order identity by merchant, installation and external order ID, and line identity within that order, beyond the retry window. The WMS assigns its own merchant-wide movement IDs. A later customer edit is a new operation on the existing order. HTTP defines idempotence at the method level for certain methods. A retryable order-creation POST needs a documented application contract. [RFC 9110 §9.2.2](https://www.rfc-editor.org/rfc/rfc9110.html#name-idempotent-methods)
 
 ## Webhooks and catch-up
 
@@ -27,7 +27,8 @@ If revision 19 arrives before 18, fetch current state before applying a change t
 
 | Exercise | Expected observation |
 | --- | --- |
-| Two simultaneous submissions with the same key | One order, one reservation and the same recorded outcome |
+| Two simultaneous submissions of a mapped order with the same scoped key | One order, one reservation when stock fits, and the same recorded outcome |
+| Unknown SKU, identical retry, then mapping repair | One order stays pending through the retry. Reprocessing the same order after repair attempts one reservation and preserves the original submission outcome. |
 | Same external order, new retry key | Existing order identified under the documented duplicate policy |
 | Cancel after pickup or dispatch | Completed physical movement survives. The caller receives the return or correction path. |
 | One merchant presents another merchant's resource ID | No order details, inventory totals or customer data cross merchant boundaries |
